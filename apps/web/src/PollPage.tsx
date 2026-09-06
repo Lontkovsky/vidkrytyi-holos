@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { z } from 'zod';
 import { Answers, Envelope, Manifest, Poll, ResultContract, percentage, policyText } from '../../../packages/domain/src/index.ts';
 import type { PollType, ResultType, EnvelopeType } from '../../../packages/domain/src/index.ts';
+import { resultCsv, resultSvg } from '../../../packages/domain/src/result-exports.ts';
 import type { Auth } from './App.tsx';
 import { ApiFailure, request } from './api.ts';
 import { ElectionInfo, encrypt, hash, verifyReceipt } from './crypto.ts';
@@ -111,5 +112,15 @@ function Results({ pollId }: { pollId: string }) {
   useEffect(() => { request('ballot', `/v1/elections/${pollId}/result`).then(value => setResult(ResultContract.parse(value))).catch((e: Error) => setError(e.message)); }, [pollId]);
   async function audit() { try { const value = await request('ballot', `/v1/elections/${pollId}/audit`); download(`audit-${pollId}.json`, JSON.stringify(value, null, 2), 'application/json'); } catch (e) { setError(e instanceof Error ? e.message : String(e)); } }
   if (result === null) return <ErrorMessage message={error} />;
-  return <section className="content-paper results"><p className="eyebrow">ПІСЛЯ ЗАКРИТТЯ</p><h2>Результат серед {result.acceptedVotes} учасників цього голосування</h2><p className="notice">{result.representativenessWarning}</p><div>{result.counts.map((count, i) => <div className="result-row" key={i}><div><strong>{Answers[i]}</strong><span>{count} · {percentage(count, result.acceptedVotes)}%</span></div><progress max={result.acceptedVotes} value={count} aria-label={Answers[i]} /></div>)}</div><p className="muted">Усі три відповіді включено в N. Відсотки округлено до одного десяткового знака; їх сума може відрізнятися від 100% через округлення.</p><p>Підрахунок перевірено reference implementation Belenios 3.3.0. Це не зовнішній аудит платформи.</p><div className="action-row"><button className="secondary" onClick={() => download('result-' + pollId + '.json', JSON.stringify(result, null, 2), 'application/json')}>Результат JSON</button><button className="secondary" onClick={() => void audit()}>Аудит-пакет</button></div><p><a href="https://github.com/Lontkovsky/vidkrytyi-holos#verification">Як виконати незалежну перевірку ↗</a></p><ErrorMessage message={error} /></section>;
+  return <section className="content-paper results"><p className="eyebrow">ПІСЛЯ ЗАКРИТТЯ</p><h2>Результат серед {result.acceptedVotes} учасників цього голосування</h2>
+    <p className="preserve result-question">{result.question}</p><p>Версія {result.version} · {result.pollId}</p>
+    <p>{policyText(result.policy)} · Версія політики {result.policy.version}</p>
+    <p className="muted preserve">Відкриття (UTC): {result.opensAt}<br />Закриття (UTC): {result.closesAt}</p>
+    <p className="notice">{result.representativenessWarning}</p><div>{result.counts.map((count, i) => <div className="result-row" key={i}><div><strong>{Answers[i]}</strong><span>{count} · {percentage(count, result.acceptedVotes)}%</span></div><progress max={result.acceptedVotes === 0 ? 1 : result.acceptedVotes} value={count} aria-label={Answers[i]} /></div>)}</div>
+    <p className="muted">Усі три відповіді включено в N. Відсотки округлено до одного десяткового знака; їх сума може відрізнятися від 100% через округлення.</p>
+    <p>Результат опубліковано (Published). Підрахунок перевірено reference implementation Belenios 3.3.0 (ReferenceVerified). Це не зовнішній аудит платформи.</p>
+    <div className="action-row"><button className="secondary" onClick={() => download('result-' + pollId + '.json', JSON.stringify(result, null, 2), 'application/json')}>Результат JSON</button><button className="secondary" onClick={() => download('result-' + pollId + '.csv', resultCsv(result), 'text/csv;charset=utf-8')}>Результат CSV</button><button className="secondary" onClick={() => void audit()}>Аудит-пакет</button></div>
+    <p className="muted">CSV містить два стовпці: поле та його JSON-значення. Лапки й типи є частиною формату; імпортуйте стовпці як текст.</p>
+    <details className="share-card"><summary>Переглянути картку поширення</summary><img src={'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(resultSvg(result))} alt={`Картка результату серед ${result.acceptedVotes} учасників; усі значення наведено вище`} /><button className="secondary" onClick={() => download('share-' + pollId + '.svg', resultSvg(result), 'image/svg+xml')}>Завантажити картку SVG</button><p className="muted">Сторонні копії та скриншоти можуть бути змінені. Картка не замінює перевірку аудит-пакета.</p></details>
+    <p><a href="https://github.com/Lontkovsky/vidkrytyi-holos#verification">Як виконати незалежну перевірку ↗</a></p><ErrorMessage message={error} /></section>;
 }

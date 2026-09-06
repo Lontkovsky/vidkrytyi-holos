@@ -2,10 +2,10 @@
   "verifiedBy": "Belenios 3.3.0 reference + final-vote guard",
   "election": {
     "version": 1,
-    "description": "{\"question\":\"Чи підтримуєте перевірку відкритого коду в браузерному сценарії aae0e3836f?\",\"context\":\"Синтетичне браузерне випробування повного сценарію. Жодне реальне рішення організації цим питанням не ухвалюється.\",\"consequences\":\"Уточнені наслідки синтетичного сценарію: перевірити незмінність питання, клієнтське шифрування і підсумок.\",\"argumentsFor\":[{\"text\":\"Оцінка тестового автора: відкритий код дозволяє дослідити виконані правила.\",\"url\":\"https://www.gnu.org/licenses/agpl-3.0.html\"}],\"argumentsAgainst\":[{\"text\":\"Оцінка тестового автора: сама відкритість коду не гарантує його безпеку.\",\"url\":\"https://www.belenios.org/faq.html\"}],\"category\":\"Технології\",\"authorAlias\":\"Браузерний тест\",\"policy\":{\"id\":\"verified-rnokpp-owner\",\"version\":1},\"opensAt\":\"2026-09-06T18:17:00.000Z\",\"closesAt\":\"2026-09-06T18:22:00.000Z\",\"publicationThreshold\":3,\"relatedPolls\":[],\"id\":\"3fbcfdb9-50cb-4d04-bb7d-fd04fdd9756d\",\"version\":2,\"environment\":\"development\",\"core\":\"Belenios 3.3.0\",\"release\":\"0.1.0-dev.1\",\"incidentPolicy\":\"SecurityIncident|LegalContentRemoval|InvalidProof; reason required; no result-based cancellation\"}",
-    "name": "Чи підтримуєте перевірку відкритого коду в браузерному сценарії aae0e3836f?",
+    "description": "{\"question\":\"Чи підтримуєте перевірку відкритого коду в браузерному сценарії db15d4b231?\",\"context\":\"Синтетичне браузерне випробування повного сценарію. Жодне реальне рішення організації цим питанням не ухвалюється.\",\"consequences\":\"Уточнені наслідки синтетичного сценарію: перевірити незмінність питання, клієнтське шифрування і підсумок.\",\"argumentsFor\":[{\"text\":\"Оцінка тестового автора: відкритий код дозволяє дослідити виконані правила.\",\"url\":\"https://www.gnu.org/licenses/agpl-3.0.html\"}],\"argumentsAgainst\":[{\"text\":\"Оцінка тестового автора: сама відкритість коду не гарантує його безпеку.\",\"url\":\"https://www.belenios.org/faq.html\"}],\"category\":\"Технології\",\"authorAlias\":\"Браузерний тест\",\"policy\":{\"id\":\"verified-rnokpp-owner\",\"version\":1},\"opensAt\":\"2026-09-06T18:51:00.000Z\",\"closesAt\":\"2026-09-06T18:57:00.000Z\",\"publicationThreshold\":3,\"relatedPolls\":[],\"id\":\"6dc92502-ab9e-4546-9d7d-c5b6d30064f3\",\"version\":2,\"environment\":\"development\",\"core\":\"Belenios 3.3.0\",\"release\":\"0.1.0-dev.1\",\"incidentPolicy\":\"SecurityIncident|LegalContentRemoval|InvalidProof; reason required; no result-based cancellation\"}",
+    "name": "Чи підтримуєте перевірку відкритого коду в браузерному сценарії db15d4b231?",
     "group": "Ed25519",
-    "public_key": "c4c3c7df549c3640d879de480980e51bcb58ef01102cc0221a74cd4c2f9315e7",
+    "public_key": "ef9dedb8c4abc9e7cfc63f62fa101b895388e70f2b9c38707308694f1459d2c9",
     "questions": [
       {
         "answers": [
@@ -15,10 +15,10 @@
         ],
         "min": 1,
         "max": 1,
-        "question": "Чи підтримуєте перевірку відкритого коду в браузерному сценарії aae0e3836f?"
+        "question": "Чи підтримуєте перевірку відкритого коду в браузерному сценарії db15d4b231?"
       }
     ],
-    "uuid": "d2v7xuXgfKHEvY"
+    "uuid": "bWR6QtTPMZawJd"
   },
   "result": {
     "result": [
@@ -31,9 +31,9 @@
   },
   "closed": true,
   "trackers": [
-    "6gkH+hsVRBIoXOQPcv93QiO7Q01i+pPRu27jU/poRms",
-    "QjJSLrru3lysTK8pCGch4L7RGP6vCSxjnu70j/tqsqk",
-    "bvm3jL8TwBAYL7gizp6uxMBSC0eUiEq+VNnkv5uDr1A"
+    "Jo/VQrPmmVa4U+lC1Fg/Zsiug5jCrJ1pRlaG0eqz+gM",
+    "rKWc7M1v8q9MKnB3dcQzQ7I7ypxTkEp/NakVHF1nEtk",
+    "wCN5Rvq+EW88c44s1AwlzUjPPbvu+EcH4KSvpMFLnkM"
   ],
   "ballotCount": 3
 }

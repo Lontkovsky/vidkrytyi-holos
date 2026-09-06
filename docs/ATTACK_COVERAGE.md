@@ -8,7 +8,7 @@ Machine-readable source: [attack-coverage.json](attack-coverage.json). Defense o
 | A02 | Фіктивні голоси від власника або issuer | PartiallyMitigated | AutomatedTested | Compromised credential authority can admit fictitious persons; complete role/collusion tests pending |
 | A03 | Встановлення вибору конкретної людини | PartiallyMitigated | AutomatedTested | Issuer links person to ciphertext; sufficient key collusion can decrypt; subset attack tests pending |
 | A04 | Компрометація БД, логів і backups | PartiallyMitigated | NotTested | Full synthetic leak/reconstruction experiment and backup controls pending |
-| A05 | Добровільне голосування видається за думку населення | PartiallyMitigated | AutomatedTested | CSV/share-card consistency not implemented; external screenshots cannot be controlled |
+| A05 | Добровільне голосування видається за думку населення | PartiallyMitigated | AutomatedTested | UI/API/JSON/CSV/SVG consistency tested; external copies, screenshots and spreadsheet reinterpretation cannot be controlled |
 | A06 | Маніпуляція формулюванням і контекстом | PartiallyMitigated | AutomatedTested | Malicious language suite and source/content removal policy tests pending |
 | A07 | Дублікати та захоплення каталогу | PartiallyMitigated | NotTested | Mass publishing and quota bypass tests pending |
 | A08 | Цензура та суперечливі історії | PartiallyMitigated | NotTested | Working observer, lawful tombstones and external read-only restoration not implemented |

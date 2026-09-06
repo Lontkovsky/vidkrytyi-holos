@@ -1,11 +1,11 @@
 {
-  "runId": "aae0e3836f",
-  "sourceHash": "4c0cc490512496851c8d18094f6be3de021197294a1bf076451dc6e4c88f3f4f",
-  "finalSourceHash": "4c0cc490512496851c8d18094f6be3de021197294a1bf076451dc6e4c88f3f4f",
+  "runId": "db15d4b231",
+  "sourceHash": "62c27332ff035bd2bf06c117890f430794ac99925ebef160d78b5edd7bd38e88",
+  "finalSourceHash": "62c27332ff035bd2bf06c117890f430794ac99925ebef160d78b5edd7bd38e88",
   "browser": "Existing in-app Browser; supplied tab.playwright binding",
   "standaloneBrowserStarted": false,
-  "startedAt": "2026-09-06T18:17:59.483Z",
-  "finishedAt": "2026-09-06T18:23:46.911Z",
+  "startedAt": "2026-09-06T18:52:23.064Z",
+  "finishedAt": "2026-09-06T18:58:52.284Z",
   "passed": true,
   "results": [
     {
@@ -84,7 +84,10 @@
       "step": "exports",
       "status": "Passed",
       "assertions": [
-        "New JSON and audit files downloaded by the browser match the displayed result and fixed deadline",
+        "Anonymous public results and real JSON, CSV, SVG and audit downloads share the exact contract",
+        "CSV independently round-trips all fields and types",
+        "Keyboard opens and closes the rendered share card",
+        "Share card retains exact question, N and all answer counts",
         "Native archive extracted unchanged from the downloaded audit for offline verification",
         "Tracker still included after publication",
         "Self-selection and representativeness warning stays visible"
