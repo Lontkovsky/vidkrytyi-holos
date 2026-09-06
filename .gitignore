@@ -17,4 +17,6 @@ private_key*
 *.sql.gz
 .DS_Store
 .local/
+__pycache__/
+*.pyc
 artifacts/private/

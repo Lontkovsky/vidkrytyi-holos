@@ -1,0 +1,11 @@
+.git
+.local
+.runtime
+.cache
+node_modules
+**/node_modules
+**/_build
+**/_run
+dist
+artifacts
+vendor/belenios/.git

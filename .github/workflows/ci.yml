@@ -1,0 +1,34 @@
+name: Verification
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+concurrency:
+  group: verification-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  reference:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          submodules: true
+          persist-credentials: false
+      - name: Public artifact hygiene
+        run: python3 scripts/scan-public.py
+      - name: Build pinned reference core
+        run: docker build --platform linux/amd64 -f infra/crypto.Dockerfile -t openvote-crypto:3.3.0 .
+      - name: Real encrypted voting and adversarial verification
+        run: sh scripts/test-reference.sh
+      - name: Verify public artifact without network or private storage
+        run: sh scripts/verify.sh artifacts/reference/election.bel
+      - name: Check generated public artifacts
+        run: python3 scripts/scan-public.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: reference-public-evidence
+          path: artifacts/reference
+          retention-days: 14

@@ -1,0 +1,68 @@
+{
+  "core": "Belenios 3.3.0",
+  "source": "337887bd1862c7cd057080b530fd80941bfc3c69",
+  "scenario": "synthetic reference CLI tract; browser tract not covered by this command",
+  "seconds": 26.19,
+  "checks": [
+    {
+      "name": "Reference 2-of-3 plus mandatory trustee ceremony",
+      "outcome": "Passed",
+      "evidence": "AutomatedTested"
+    },
+    {
+      "name": "Byte-identical redelivery is idempotent",
+      "outcome": "Passed",
+      "evidence": "AutomatedTested"
+    },
+    {
+      "name": "Same right with a different ballot",
+      "outcome": "Rejected",
+      "evidence": "AutomatedTested"
+    },
+    {
+      "name": "Unregistered signing credential",
+      "outcome": "Rejected",
+      "evidence": "AutomatedTested"
+    },
+    {
+      "name": "Corrupted zero-knowledge proof",
+      "outcome": "Rejected",
+      "evidence": "AutomatedTested"
+    },
+    {
+      "name": "Corrupted ciphertext",
+      "outcome": "Rejected",
+      "evidence": "AutomatedTested"
+    },
+    {
+      "name": "Decryption before finality",
+      "outcome": "Rejected",
+      "evidence": "AutomatedTested"
+    },
+    {
+      "name": "Insufficient quorum",
+      "outcome": "Rejected",
+      "evidence": "AutomatedTested"
+    },
+    {
+      "name": "Five encrypted votes independently tally to 3/1/1",
+      "outcome": "Passed",
+      "evidence": "AutomatedTested"
+    },
+    {
+      "name": "Hash-consistent forged tally",
+      "outcome": "Rejected",
+      "evidence": "AutomatedTested"
+    },
+    {
+      "name": "Tampered public archive",
+      "outcome": "Rejected",
+      "evidence": "AutomatedTested"
+    },
+    {
+      "name": "Production mock ceremony",
+      "outcome": "Rejected",
+      "evidence": "AutomatedTested"
+    }
+  ]
+}

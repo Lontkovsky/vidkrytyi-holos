@@ -1,0 +1,3 @@
+[submodule "vendor/belenios"]
+	path = vendor/belenios
+	url = https://github.com/glondu/belenios.git
