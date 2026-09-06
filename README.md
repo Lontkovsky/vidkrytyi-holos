@@ -42,6 +42,8 @@ Verify the archive downloaded by the browser without identity storage:
 pnpm verify artifacts/e2e/election.bel
 ```
 
+The separate [public observer](docs/OBSERVER.md) persists signed history, checks a published native tally and compares independent observations for conflicting histories. Its `observer` and `audit:export` commands require an explicitly trusted poll/key configuration. They never initialize missing history implicitly or use an identity session. The reproducible observer tests run with `pnpm exec vitest run tests/observer.test.ts` against the committed browser audit. Split-view detection requires observers to exchange incompatible evidence; it is not guaranteed while they remain isolated.
+
 To reproduce the current slice with Git, Docker and Python 3:
 
 ```sh

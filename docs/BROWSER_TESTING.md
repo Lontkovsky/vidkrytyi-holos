@@ -35,4 +35,6 @@ The export stage clicks the real UI and reads only newly completed files in the 
 
 Exports are exercised after signing out. JSON, CSV, SVG and audit downloads must contain the same complete result contract. The test uses Python standard-library CSV/XML parsers on the actual downloaded files, checks the visible result question, opens/closes the share preview by keyboard, verifies that the SVG image loaded, and retains the CSV/SVG as safe public evidence.
 
+The same stage visits the trust center and checks the observer disclosure: isolated, internally consistent forks require an explicit exchange and comparison of signed evidence. It then returns to the published poll through its public UI link.
+
 Earlier development runs exposed exact-label locator issues on populated form controls, asynchronous review timing, and a concrete catalog hit-area defect. A wrapped inline heading link had a bounding-box center in the parent H2 outside its two inline rectangles, so a center click did not navigate. DOM hit testing confirmed this. Heading links now occupy a contiguous block. Assertions use accessible roles, exact expected navigation and fresh DOM checks. None of the failed runs represented an accepted duplicate ballot.
