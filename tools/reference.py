@@ -9,6 +9,7 @@ import hashlib
 import io
 import json
 import pathlib
+import re
 import subprocess
 import sys
 import tarfile
@@ -70,6 +71,15 @@ def load_archive(directory, encoded):
     (directory / 'input.bel').write_bytes(raw)
     command(directory, 'election', 'verify')
     details = inspect_archive(raw)
+    manifest = json.loads(details['election']['description'])
+    if manifest['environment'] not in ['development', 'test', 'demo']:
+        raise ValueError('PRODUCTION_DISABLED')
+    if details['election']['name'] != manifest['question'] or details['election']['questions'] != [
+        {'question': manifest['question'], 'answers': ['Підтримую', 'Не підтримую', 'Утримуюсь'], 'min': 1, 'max': 1}
+    ]:
+        raise ValueError('MANIFEST_QUESTION_MISMATCH')
+    if any(not isinstance(c, str) or re.fullmatch('[0-9a-f]{64}', c) is None for c in details['credentials']):
+        raise ValueError('UNWEIGHTED_CREDENTIALS_REQUIRED')
     return raw, details
 
 
@@ -142,8 +152,11 @@ def process(request):
             return setup(directory, request)
         raw, details = load_archive(directory, request['archive'])
         if action == 'verify':
+            summary = json.loads(command(directory, 'election', 'compute-ballot-summary'))
             return {'verifiedBy': f'Belenios {VERSION} reference + final-vote guard',
                     'election': details['election'], 'result': details['result'],
+                    'closed': any(e['type'] == 'EndBallots' for e in details['events']),
+                    'trackers': sorted(base64.b64encode(bytes.fromhex(b['hash'])).decode().rstrip('=') for b in summary),
                     'ballotCount': len(details['ballots'])}
         if action == 'generate-test-ballot':
             # Fixture-only entry point. Browser participation uses upstream JS.

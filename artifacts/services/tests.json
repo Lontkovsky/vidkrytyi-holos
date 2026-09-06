@@ -1,0 +1,127 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 6,
+  "numPassedTests": 6,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1788714051696,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "versioned eligibility and public methodology"
+          ],
+          "fullName": "versioned eligibility and public methodology does not silently impose age or citizenship",
+          "status": "passed",
+          "title": "does not silently impose age or citizenship",
+          "duration": 3.194666000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "versioned eligibility and public methodology"
+          ],
+          "fullName": "versioned eligibility and public methodology keeps abstentions in N and handles empty results",
+          "status": "passed",
+          "title": "keeps abstentions in N and handles empty results",
+          "duration": 0.09774999999999068,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "versioned eligibility and public methodology"
+          ],
+          "fullName": "versioned eligibility and public methodology rejects production mock configuration",
+          "status": "passed",
+          "title": "rejects production mock configuration",
+          "duration": 1.6421660000000031,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1788714051869,
+      "endTime": 1788714051873.642,
+      "status": "passed",
+      "message": "",
+      "name": "tests/domain.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "real service boundaries"
+          ],
+          "fullName": "real service boundaries deduplicates A/B, replays late return and exposes outages without weaker admission",
+          "status": "passed",
+          "title": "deduplicates A/B, replays late return and exposes outages without weaker admission",
+          "duration": 320.949333,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "real service boundaries"
+          ],
+          "fullName": "real service boundaries enforces proof intake, final vote, recovery, signed finality and threshold tally",
+          "status": "passed",
+          "title": "enforces proof intake, final vote, recovery, signed finality and threshold tally",
+          "duration": 46409.170416999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "real service boundaries"
+          ],
+          "fullName": "real service boundaries denies conflicting attributes and invalidates previous sessions",
+          "status": "passed",
+          "title": "denies conflicting attributes and invalidates previous sessions",
+          "duration": 45.679958000000624,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1788714051872,
+      "endTime": 1788714098647.68,
+      "status": "passed",
+      "message": "",
+      "name": "tests/services.test.ts"
+    }
+  ]
+}

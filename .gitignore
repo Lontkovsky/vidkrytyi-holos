@@ -20,3 +20,4 @@ private_key*
 __pycache__/
 *.pyc
 artifacts/private/
+apps/web/public/crypto/

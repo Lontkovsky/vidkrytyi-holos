@@ -1,0 +1,299 @@
+{
+  "schemaVersion": 1,
+  "statusAuthority": "GitHub Issues/Projects",
+  "scope": "Partial development evidence; no external reviews",
+  "scenarios": [
+    {
+      "id": "A01",
+      "title": "Повторні голоси однієї людини",
+      "attackerCapabilities": "Concurrent requests, multiple providers/devices, old backup",
+      "trustBoundary": "Honest eligibility issuer and authoritative ballot state",
+      "controls": "Keyed identity deduplication, fixed credential per poll, unique ballot credential, idempotent signed receipt",
+      "residualRisk": "Stale writable backup guard not yet implemented",
+      "requirements": [
+        "15.1",
+        "5"
+      ],
+      "issues": [
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/16",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/17",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/19",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/20",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/33"
+      ],
+      "prs": [
+        "https://github.com/Lontkovsky/vidkrytyi-holos/pull/42"
+      ],
+      "defenseOutcome": "PartiallyMitigated",
+      "evidenceState": "AutomatedTested",
+      "implementationState": "Partial",
+      "verification": [
+        "tests/services.test.ts",
+        "tools/test_reference.py"
+      ],
+      "actualEvidence": [
+        "artifacts/services/tests.json"
+      ],
+      "remainingAcceptanceCriteria": "Stale writable backup guard not yet implemented"
+    },
+    {
+      "id": "A02",
+      "title": "Фіктивні голоси від власника або issuer",
+      "attackerCapabilities": "Operator forges or issues credentials",
+      "trustBoundary": "Credential authority and precommitted registry",
+      "controls": "Native credential/proof verification; immutable registration",
+      "residualRisk": "Compromised credential authority can admit fictitious persons; complete role/collusion tests pending",
+      "requirements": [
+        "15.1",
+        "15.3"
+      ],
+      "issues": [
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/20",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/26"
+      ],
+      "prs": [
+        "https://github.com/Lontkovsky/vidkrytyi-holos/pull/42"
+      ],
+      "defenseOutcome": "PartiallyMitigated",
+      "evidenceState": "AutomatedTested",
+      "implementationState": "Partial",
+      "verification": [
+        "tools/test_reference.py"
+      ],
+      "actualEvidence": [
+        "artifacts/reference/reference-report.json"
+      ],
+      "remainingAcceptanceCriteria": "Compromised credential authority can admit fictitious persons; complete role/collusion tests pending"
+    },
+    {
+      "id": "A03",
+      "title": "Встановлення вибору конкретної людини",
+      "attackerCapabilities": "Operator correlates metadata or requests selected decryption",
+      "trustBoundary": "Honest trustee clients; enough independent key holders",
+      "controls": "Client Belenios encryption; pretrusted manifest/final-set checks; fixed close and minimum group",
+      "residualRisk": "Issuer links person to ciphertext; sufficient key collusion can decrypt; subset attack tests pending",
+      "requirements": [
+        "15.1",
+        "15.4"
+      ],
+      "issues": [
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/25",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/26"
+      ],
+      "prs": [
+        "https://github.com/Lontkovsky/vidkrytyi-holos/pull/42"
+      ],
+      "defenseOutcome": "PartiallyMitigated",
+      "evidenceState": "AutomatedTested",
+      "implementationState": "Partial",
+      "verification": [
+        "tests/services.test.ts"
+      ],
+      "actualEvidence": [
+        "artifacts/services/tests.json"
+      ],
+      "remainingAcceptanceCriteria": "Issuer links person to ciphertext; sufficient key collusion can decrypt; subset attack tests pending"
+    },
+    {
+      "id": "A04",
+      "title": "Компрометація БД, логів і backups",
+      "attackerCapabilities": "Reads one or all stores, runtime secrets and backups",
+      "trustBoundary": "Runtime/host operator controls keys in this simulation",
+      "controls": "Separate DB users, sealed credentials, no request logging, public encrypted audit",
+      "residualRisk": "Full synthetic leak/reconstruction experiment and backup controls pending",
+      "requirements": [
+        "15.1",
+        "15.4"
+      ],
+      "issues": [
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/27",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/33"
+      ],
+      "prs": [],
+      "defenseOutcome": "PartiallyMitigated",
+      "evidenceState": "NotTested",
+      "implementationState": "Partial",
+      "verification": [],
+      "actualEvidence": [],
+      "remainingAcceptanceCriteria": "Full synthetic leak/reconstruction experiment and backup controls pending"
+    },
+    {
+      "id": "A05",
+      "title": "Добровільне голосування видається за думку населення",
+      "attackerCapabilities": "Misleading presentation and external screenshots",
+      "trustBoundary": "Platform controls its own UI and exports only",
+      "controls": "Central result schema includes N, all answers, policy, time bounds and self-selection notice",
+      "residualRisk": "CSV/share-card consistency not implemented; external screenshots cannot be controlled",
+      "requirements": [
+        "15.1",
+        "15.5"
+      ],
+      "issues": [
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/24",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/29"
+      ],
+      "prs": [],
+      "defenseOutcome": "PartiallyMitigated",
+      "evidenceState": "AutomatedTested",
+      "implementationState": "Partial",
+      "verification": [
+        "tests/domain.test.ts",
+        "tests/services.test.ts"
+      ],
+      "actualEvidence": [
+        "artifacts/services/tests.json"
+      ],
+      "remainingAcceptanceCriteria": "CSV/share-card consistency not implemented; external screenshots cannot be controlled"
+    },
+    {
+      "id": "A06",
+      "title": "Маніпуляція формулюванням і контекстом",
+      "attackerCapabilities": "Author/moderator changes official content or manipulates language",
+      "trustBoundary": "Honest review and client receiving expected code",
+      "controls": "Five-point rubric, fixed official manifest/context and client comparison",
+      "residualRisk": "Malicious language suite and source/content removal policy tests pending",
+      "requirements": [
+        "15.1",
+        "15.5"
+      ],
+      "issues": [
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/21",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/22",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/29"
+      ],
+      "prs": [],
+      "defenseOutcome": "PartiallyMitigated",
+      "evidenceState": "AutomatedTested",
+      "implementationState": "Partial",
+      "verification": [
+        "tests/services.test.ts"
+      ],
+      "actualEvidence": [
+        "artifacts/services/tests.json"
+      ],
+      "remainingAcceptanceCriteria": "Malicious language suite and source/content removal policy tests pending"
+    },
+    {
+      "id": "A07",
+      "title": "Дублікати та захоплення каталогу",
+      "attackerCapabilities": "One confirmed author creates many paraphrased questions",
+      "trustBoundary": "Cross-provider deduplication; nonpersonalized catalog",
+      "controls": "Draft cap, publication quotas/cooldown/open limit; visible chronological sorting; similar search",
+      "residualRisk": "Mass publishing and quota bypass tests pending",
+      "requirements": [
+        "15.1",
+        "15.6"
+      ],
+      "issues": [
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/21",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/30"
+      ],
+      "prs": [],
+      "defenseOutcome": "PartiallyMitigated",
+      "evidenceState": "NotTested",
+      "implementationState": "Partial",
+      "verification": [],
+      "actualEvidence": [],
+      "remainingAcceptanceCriteria": "Mass publishing and quota bypass tests pending"
+    },
+    {
+      "id": "A08",
+      "title": "Цензура та суперечливі історії",
+      "attackerCapabilities": "Operator rolls back DB or serves split views",
+      "trustBoundary": "Observers must exchange incompatible evidence",
+      "controls": "Signed chained checkpoints and receipts; incident reason API",
+      "residualRisk": "Working observer, lawful tombstones and external read-only restoration not implemented",
+      "requirements": [
+        "15.1",
+        "15.7"
+      ],
+      "issues": [
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/28",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/31",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/33"
+      ],
+      "prs": [],
+      "defenseOutcome": "PartiallyMitigated",
+      "evidenceState": "NotTested",
+      "implementationState": "Partial",
+      "verification": [],
+      "actualEvidence": [],
+      "remainingAcceptanceCriteria": "Working observer, lawful tombstones and external read-only restoration not implemented"
+    },
+    {
+      "id": "A09",
+      "title": "Підміна збірки та непрозоре управління",
+      "attackerCapabilities": "Owner/CI/host substitutes executable code",
+      "trustBoundary": "Trusted source/release reference held separately",
+      "controls": "Pinned upstream/dependencies, public PRs/governance and restricted CI permissions",
+      "residualRisk": "Two-clean-build comparison, independent client monitor and release locking pending",
+      "requirements": [
+        "15.1",
+        "15.8"
+      ],
+      "issues": [
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/12",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/13",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/35",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/40"
+      ],
+      "prs": [],
+      "defenseOutcome": "PartiallyMitigated",
+      "evidenceState": "NotTested",
+      "implementationState": "Partial",
+      "verification": [],
+      "actualEvidence": [],
+      "remainingAcceptanceCriteria": "Two-clean-build comparison, independent client monitor and release locking pending"
+    },
+    {
+      "id": "A10",
+      "title": "Недоступність провайдера ідентифікації",
+      "attackerCapabilities": "A/B failure, delayed callbacks and conflicting claims",
+      "trustBoundary": "A and B have distinct mock keys/processes; real upstream unknown",
+      "controls": "Idempotent return; same person/credential through B; conflict revokes session; production mocks refused",
+      "residualRisk": "Production adapters AwaitingProviderContract; outage UI recovery paths pending",
+      "requirements": [
+        "15.1",
+        "15.9"
+      ],
+      "issues": [
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/17",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/18"
+      ],
+      "prs": [],
+      "defenseOutcome": "PartiallyMitigated",
+      "evidenceState": "AutomatedTested",
+      "implementationState": "Partial",
+      "verification": [
+        "tests/services.test.ts"
+      ],
+      "actualEvidence": [
+        "artifacts/services/tests.json"
+      ],
+      "remainingAcceptanceCriteria": "Production adapters AwaitingProviderContract; outage UI recovery paths pending"
+    },
+    {
+      "id": "A11",
+      "title": "Купівля голосів і примус",
+      "attackerCapabilities": "Credential transfer, supervised screen, compromised device or private keys",
+      "trustBoundary": "Participant device and sufficient key holders",
+      "controls": "Pre-vote warning; receipts omit choice, identity and encryption secrets",
+      "residualRisk": "Belenios integration provides neither receipt-freeness nor coercion resistance; explicit limitation experiments pending",
+      "requirements": [
+        "15.1",
+        "15.10"
+      ],
+      "issues": [
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/24",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/27"
+      ],
+      "prs": [],
+      "defenseOutcome": "KnownLimitation",
+      "evidenceState": "NotTested",
+      "implementationState": "Partial",
+      "verification": [],
+      "actualEvidence": [],
+      "remainingAcceptanceCriteria": "Belenios integration provides neither receipt-freeness nor coercion resistance; explicit limitation experiments pending"
+    }
+  ]
+}
