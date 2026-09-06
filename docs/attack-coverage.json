@@ -260,7 +260,10 @@
         "https://github.com/Lontkovsky/vidkrytyi-holos/issues/17",
         "https://github.com/Lontkovsky/vidkrytyi-holos/issues/18"
       ],
-      "prs": [],
+      "prs": [
+        "https://github.com/Lontkovsky/vidkrytyi-holos/pull/43",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/pull/45"
+      ],
       "defenseOutcome": "PartiallyMitigated",
       "evidenceState": "AutomatedTested",
       "implementationState": "Partial",
