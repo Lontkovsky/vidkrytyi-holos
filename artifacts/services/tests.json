@@ -1,10 +1,10 @@
 {
-  "numTotalTestSuites": 6,
-  "numPassedTestSuites": 6,
+  "numTotalTestSuites": 8,
+  "numPassedTestSuites": 8,
   "numFailedTestSuites": 0,
   "numPendingTestSuites": 0,
-  "numTotalTests": 15,
-  "numPassedTests": 15,
+  "numTotalTests": 21,
+  "numPassedTests": 21,
   "numFailedTests": 0,
   "numPendingTests": 0,
   "numTodoTests": 0,
@@ -24,7 +24,7 @@
     "updated": 0,
     "didUpdate": false
   },
-  "startTime": 1788718574566,
+  "startTime": 1788720573544,
   "success": true,
   "testResults": [
     {
@@ -36,7 +36,7 @@
           "fullName": "versioned eligibility and public methodology does not silently impose age or citizenship",
           "status": "passed",
           "title": "does not silently impose age or citizenship",
-          "duration": 3.5747910000000047,
+          "duration": 3.6204170000000033,
           "failureMessages": [],
           "meta": {},
           "tags": [],
@@ -49,7 +49,7 @@
           "fullName": "versioned eligibility and public methodology keeps abstentions in N and handles empty results",
           "status": "passed",
           "title": "keeps abstentions in N and handles empty results",
-          "duration": 0.10020800000000918,
+          "duration": 0.10454199999998082,
           "failureMessages": [],
           "meta": {},
           "tags": [],
@@ -62,15 +62,15 @@
           "fullName": "versioned eligibility and public methodology rejects production mock configuration",
           "status": "passed",
           "title": "rejects production mock configuration",
-          "duration": 1.638750000000016,
+          "duration": 1.6605830000000026,
           "failureMessages": [],
           "meta": {},
           "tags": [],
           "benchmarks": []
         }
       ],
-      "startTime": 1788718574731,
-      "endTime": 1788718574736.6387,
+      "startTime": 1788720573720,
+      "endTime": 1788720573725.6606,
       "status": "passed",
       "message": "",
       "name": "tests/domain.test.ts"
@@ -84,7 +84,7 @@
           "fullName": "identity provider contract boundary verifies the configured mock signature and binds every response to its request",
           "status": "passed",
           "title": "verifies the configured mock signature and binds every response to its request",
-          "duration": 10.982499999999987,
+          "duration": 11.284500000000008,
           "failureMessages": [],
           "meta": {},
           "tags": [],
@@ -97,7 +97,7 @@
           "fullName": "identity provider contract boundary rejects expired, future, excessive-lifetime and mismatched signed assertions",
           "status": "passed",
           "title": "rejects expired, future, excessive-lifetime and mismatched signed assertions",
-          "duration": 2.8794579999999996,
+          "duration": 3.1824580000000253,
           "failureMessages": [],
           "meta": {},
           "tags": [],
@@ -110,7 +110,7 @@
           "fullName": "identity provider contract boundary rejects a signature from an unauthorized issuer without treating it as an outage",
           "status": "passed",
           "title": "rejects a signature from an unauthorized issuer without treating it as an outage",
-          "duration": 0.6979169999999897,
+          "duration": 0.774124999999998,
           "failureMessages": [],
           "meta": {},
           "tags": [],
@@ -123,7 +123,7 @@
           "fullName": "identity provider contract boundary makes exactly one transport attempt and exposes an unavailable provider",
           "status": "passed",
           "title": "makes exactly one transport attempt and exposes an unavailable provider",
-          "duration": 0.8710000000000093,
+          "duration": 0.9477080000000058,
           "failureMessages": [],
           "meta": {},
           "tags": [],
@@ -136,7 +136,7 @@
           "fullName": "identity provider contract boundary does not invent availability from malformed or mismatched status data",
           "status": "passed",
           "title": "does not invent availability from malformed or mismatched status data",
-          "duration": 0.9200839999999744,
+          "duration": 0.9642499999999927,
           "failureMessages": [],
           "meta": {},
           "tags": [],
@@ -149,7 +149,7 @@
           "fullName": "identity provider contract boundary rejects real identifiers and production configuration before contacting a provider",
           "status": "passed",
           "title": "rejects real identifiers and production configuration before contacting a provider",
-          "duration": 0.3099170000000129,
+          "duration": 0.3148750000000007,
           "failureMessages": [],
           "meta": {},
           "tags": [],
@@ -162,18 +162,92 @@
           "fullName": "identity provider contract boundary keeps all three production boundaries explicitly disabled without any network call",
           "status": "passed",
           "title": "keeps all three production boundaries explicitly disabled without any network call",
-          "duration": 0.2630829999999946,
+          "duration": 0.2599999999999909,
           "failureMessages": [],
           "meta": {},
           "tags": [],
           "benchmarks": []
         }
       ],
-      "startTime": 1788718574730,
-      "endTime": 1788718574747.2632,
+      "startTime": 1788720573715,
+      "endTime": 1788720573732.315,
       "status": "passed",
       "message": "",
       "name": "tests/providers.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [
+            "one public result contract"
+          ],
+          "fullName": "one public result contract rejects inconsistent totals, missing methodology, invalid question text and deadlines",
+          "status": "passed",
+          "title": "rejects inconsistent totals, missing methodology, invalid question text and deadlines",
+          "duration": 1.6311660000000074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "one public result contract"
+          ],
+          "fullName": "one public result contract round-trips CSV without changing text, policy, numbers or types",
+          "status": "passed",
+          "title": "round-trips CSV without changing text, policy, numbers or types",
+          "duration": 2222.956792,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "one public result contract"
+          ],
+          "fullName": "one public result contract keeps malicious formula text literal within the declared JSON-valued CSV cell",
+          "status": "passed",
+          "title": "keeps malicious formula text literal within the declared JSON-valued CSV cell",
+          "duration": 21.15350000000035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "one public result contract"
+          ],
+          "fullName": "one public result contract escapes SVG text and embeds the exact contract without scripts, events or external resources",
+          "status": "passed",
+          "title": "escapes SVG text and embeds the exact contract without scripts, events or external resources",
+          "duration": 21.942417000000205,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "one public result contract"
+          ],
+          "fullName": "one public result contract renders zero and unanimous totals without losing N or abstentions",
+          "status": "passed",
+          "title": "renders zero and unanimous totals without losing N or abstentions",
+          "duration": 126.76266699999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        }
+      ],
+      "startTime": 1788720573677,
+      "endTime": 1788720576071.7627,
+      "status": "passed",
+      "message": "",
+      "name": "tests/result-exports.test.ts"
     },
     {
       "assertionResults": [
@@ -184,7 +258,7 @@
           "fullName": "real service boundaries deduplicates A/B, replays late return and exposes outages without weaker admission",
           "status": "passed",
           "title": "deduplicates A/B, replays late return and exposes outages without weaker admission",
-          "duration": 336.020208,
+          "duration": 360.132125,
           "failureMessages": [],
           "meta": {},
           "tags": [],
@@ -197,7 +271,7 @@
           "fullName": "real service boundaries expires pending identity returns before granting a session",
           "status": "passed",
           "title": "expires pending identity returns before granting a session",
-          "duration": 2043.088917,
+          "duration": 2019.983625,
           "failureMessages": [],
           "meta": {},
           "tags": [],
@@ -210,7 +284,7 @@
           "fullName": "real service boundaries checks return expiry after waiting for the person transaction lock",
           "status": "passed",
           "title": "checks return expiry after waiting for the person transaction lock",
-          "duration": 54.0021670000001,
+          "duration": 27.17862500000001,
           "failureMessages": [],
           "meta": {},
           "tags": [],
@@ -223,7 +297,20 @@
           "fullName": "real service boundaries enforces proof intake, final vote, recovery, signed finality and threshold tally",
           "status": "passed",
           "title": "enforces proof intake, final vote, recovery, signed finality and threshold tally",
-          "duration": 46601.692291,
+          "duration": 46565.79025,
+          "failureMessages": [],
+          "meta": {},
+          "tags": [],
+          "benchmarks": []
+        },
+        {
+          "ancestorTitles": [
+            "real service boundaries"
+          ],
+          "fullName": "real service boundaries withholds every public result format for a real empty closed ballot box",
+          "status": "passed",
+          "title": "withholds every public result format for a real empty closed ballot box",
+          "duration": 11350.335500000001,
           "failureMessages": [],
           "meta": {},
           "tags": [],
@@ -236,15 +323,15 @@
           "fullName": "real service boundaries denies conflicting attributes and invalidates previous sessions",
           "status": "passed",
           "title": "denies conflicting attributes and invalidates previous sessions",
-          "duration": 42.567833000000974,
+          "duration": 52.688374999997905,
           "failureMessages": [],
           "meta": {},
           "tags": [],
           "benchmarks": []
         }
       ],
-      "startTime": 1788718574735,
-      "endTime": 1788718623812.5679,
+      "startTime": 1788720573720,
+      "endTime": 1788720634095.6885,
       "status": "passed",
       "message": "",
       "name": "tests/services.test.ts"

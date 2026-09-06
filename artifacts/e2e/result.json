@@ -1,8 +1,8 @@
 {
   "apiVersion": "v1",
-  "question": "Чи підтримуєте перевірку відкритого коду в браузерному сценарії aae0e3836f?",
+  "question": "Чи підтримуєте перевірку відкритого коду в браузерному сценарії db15d4b231?",
   "version": 2,
-  "pollId": "d2v7xuXgfKHEvY",
+  "pollId": "bWR6QtTPMZawJd",
   "policy": {
     "id": "verified-rnokpp-owner",
     "version": 1
@@ -13,8 +13,8 @@
     1,
     1
   ],
-  "opensAt": "2026-09-06T18:17:00.000Z",
-  "closesAt": "2026-09-06T18:22:00.000Z",
+  "opensAt": "2026-09-06T18:51:00.000Z",
+  "closesAt": "2026-09-06T18:57:00.000Z",
   "state": "Published",
   "verification": "ReferenceVerified",
   "selfSelected": true,

@@ -1,0 +1,2 @@
+# Preserve the bytes of browser-downloaded RFC 4180 CSV evidence.
+artifacts/e2e/*.csv -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

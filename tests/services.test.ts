@@ -7,6 +7,7 @@ import { database, pseudonym, readConfig, required } from '../apps/api/src/commo
 import { call, createPoll, fixtureContent, generateBallot, login, ok, approvedReview } from './support/flow.ts';
 import { FinalSet, Trust, verifyFinal } from '../packages/domain/src/checkpoints.ts';
 import { localCore } from '../scripts/local-core.ts';
+import { resultCsv, resultSvg } from '../packages/domain/src/result-exports.ts';
 
 const created: { id: string; cryptoId: string }[] = [];
 async function control(provider: 'A' | 'B', available: boolean, conflictingAttributes = false, delayMs = 0) {
@@ -140,7 +141,7 @@ describe('real service boundaries', () => {
       const c = right.parse(await ok('identity', `/v1/credentials/${id}`, 'POST', {}, voter.token));
       await ok('ballot', `/v1/elections/${id}/ballots`, 'POST', { ballot: await generateBallot(record.archive, c.credential, input[1]) });
     }
-    expect((await call('ballot', `/v1/elections/${id}/result`)).status).toBe(409);
+    for (const path of ['result', 'result.csv', 'share.svg', 'audit']) expect((await call('ballot', `/v1/elections/${id}/${path}`)).status).toBe(409);
     await setTimeout(Math.max(0, closesAt.getTime() - Date.now() + 100));
     const expiredCredential = await call('identity', `/v1/credentials/${id}`, 'POST', {}, author.token);
     expect(expiredCredential.status).toBe(403);
@@ -155,18 +156,46 @@ describe('real service boundaries', () => {
     expect(() => verifyFinal(final, trust, report, Date.now(), 'different-final')).toThrow('TRUSTEE_FINAL_SET_ALREADY_BOUND');
     expect(verifyFinal(final, trust, report, Date.now(), bound.finalHash).finalHash).toBe(bound.finalHash);
     expect(await ok('ballot', `/internal/tally/${id}`, 'POST', {}, config.serviceToken)).toEqual({ state: 'WaitingForQuorum' });
+    for (const path of ['result', 'result.csv', 'share.svg', 'audit']) expect((await call('ballot', `/v1/elections/${id}/${path}`)).status).toBe(409);
     await mkdir('artifacts/services', { recursive: true });
     await writeFile('artifacts/services/closed-public-set.json', JSON.stringify({ final, trust, report }, null, 2) + '\n');
     await ok('management', `/v1/polls/${poll.id}/demo-tally`, 'POST', {}, moderator.token);
     const result = ResultContract.parse(await ok('ballot', `/v1/elections/${id}/result`));
     expect(result.counts).toEqual([1, 1, 1]); expect(result.acceptedVotes).toBe(3);
     expect(result.selfSelected).toBe(true);
+    for (const [path, type, filename, contents] of [
+      ['result.csv', 'text/csv', `result-${id}.csv`, resultCsv(result)],
+      ['share.svg', 'image/svg+xml', `share-${id}.svg`, resultSvg(result)],
+    ]) {
+      const response = await fetch(`http://127.0.0.1:4302/v1/elections/${id}/${path}`);
+      expect(response.status).toBe(200);
+      expect(response.headers.get('content-type')).toContain(type);
+      expect(response.headers.get('content-disposition')).toBe(`attachment; filename="${filename}"`);
+      expect(await response.text()).toBe(contents);
+    }
     expect(accepted.parse(await ok('ballot', `/v1/elections/${id}/ballots`, 'POST', { ballot })).receipt).toEqual(receipt);
     const audit = z.object({ archive: z.string() }).parse(await ok('ballot', `/v1/elections/${id}/audit`));
     await mkdir('artifacts/services', { recursive: true });
     await writeFile('artifacts/services/election.bel', Buffer.from(audit.archive, 'base64'));
     await writeFile('artifacts/services/result.json', JSON.stringify(result, null, 2) + '\n');
+    await ok('ballot', `/internal/state/${id}`, 'POST', { state: 'Invalidated' }, config.serviceToken);
+    for (const path of ['result', 'result.csv', 'share.svg', 'audit']) expect((await call('ballot', `/v1/elections/${id}/${path}`)).status).toBe(409);
   }, 180000);
+  it('withholds every public result format for a real empty closed ballot box', async () => {
+    const author = await login('TEST-PERSON-0009'), moderator = await login('TEST-PERSON-0012');
+    const closesAt = new Date(Date.now() + 10000);
+    const poll = await createPoll(author.token, moderator.token, fixtureContent(closesAt, 'Чи підтримуєте нерозкриття підсумку порожнього тестового голосування?'));
+    if (poll.cryptoId === null) throw new Error('Missing crypto id');
+    created.push({ id: poll.id, cryptoId: poll.cryptoId });
+    await setTimeout(Math.max(0, closesAt.getTime() - Date.now() + 100));
+    await ok('management', `/v1/polls/${poll.id}/close`, 'POST', {}, moderator.token);
+    for (const path of ['result', 'result.csv', 'share.svg']) {
+      const response = await call('ballot', `/v1/elections/${poll.cryptoId}/${path}`);
+      expect(response.status).toBe(409);
+      expect(response.value).toEqual({ error: 'RESULTS_SUPPRESSED' });
+    }
+    expect((await call('ballot', `/v1/elections/${poll.cryptoId}/audit`)).status).toBe(409);
+  }, 60000);
   it('denies conflicting attributes and invalidates previous sessions', async () => {
     const identity = await login('TEST-PERSON-0008', 'A');
     await control('B', true, true);

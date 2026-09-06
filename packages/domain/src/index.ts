@@ -3,6 +3,8 @@ import { z } from 'zod';
 export const Environment = z.enum(['development', 'test', 'demo']);
 export const PollState = z.enum(['Draft', 'Review', 'Scheduled', 'Open', 'Closed', 'Tallying', 'Published', 'Rejected', 'Cancelled', 'Invalidated', 'ResultsSuppressed']);
 export const Answers = ['Підтримую', 'Не підтримую', 'Утримуюсь'];
+export const representativenessWarning = 'Добровільна участь із самовідбором. Результат описує учасників цього голосування й не є автоматично репрезентативною думкою населення.';
+export const Question = z.string().min(12).max(240).regex(/^[\u0009\u000A\u000D\u0020-\uD7FF\uE000-\uFFFD\u{10000}-\u{10FFFF}]*$/u, 'Питання містить неприпустимий керівний символ');
 export const Categories = ['Громада', 'Освіта', 'Культура', 'Технології', 'Економіка', 'Довкілля', 'Соціальні питання'];
 export const Policy = z.strictObject({
   id: z.literal('verified-rnokpp-owner'), version: z.literal(1),
@@ -16,7 +18,7 @@ export const Source = z.strictObject({
   url: z.url().refine(value => new URL(value).protocol === 'https:', 'Потрібне HTTPS-посилання'),
 });
 export const Content = z.strictObject({
-  question: z.string().min(12).max(240), context: z.string().min(20).max(8000), consequences: z.string().min(10).max(3000),
+  question: Question, context: z.string().min(20).max(8000), consequences: z.string().min(10).max(3000),
   argumentsFor: z.array(Source).min(1).max(5), argumentsAgainst: z.array(Source).min(1).max(5),
   category: z.string().refine(value => Categories.includes(value)), authorAlias: z.string().min(3).max(60),
   policy: Policy, opensAt: z.iso.datetime(), closesAt: z.iso.datetime(),
@@ -55,12 +57,13 @@ export const Checkpoint = z.strictObject({
 });
 export const Receipt = z.strictObject({ protocol: z.literal('openvote-receipt-v1'), pollId: z.string(), manifestHash: z.string(), tracker: z.string() });
 export const ResultContract = z.strictObject({
-  apiVersion: z.literal('v1'), question: z.string(), version: z.number(), pollId: z.string(), policy: Policy,
+  apiVersion: z.literal('v1'), question: Question, version: z.number().int().positive(), pollId: z.string().regex(/^[A-Za-z0-9]{14}$/), policy: Policy,
   acceptedVotes: z.number().int().nonnegative(),
   counts: z.tuple([z.number().int().nonnegative(), z.number().int().nonnegative(), z.number().int().nonnegative()]),
   opensAt: z.iso.datetime(), closesAt: z.iso.datetime(), state: z.literal('Published'),
-  verification: z.literal('ReferenceVerified'), selfSelected: z.literal(true), representativenessWarning: z.string(),
-});
+  verification: z.literal('ReferenceVerified'), selfSelected: z.literal(true), representativenessWarning: z.literal(representativenessWarning),
+}).refine(value => value.counts.reduce((sum, count) => sum + count, 0) === value.acceptedVotes, 'RESULT_COUNT_MISMATCH')
+  .refine(value => Date.parse(value.opensAt) < Date.parse(value.closesAt), 'INVALID_SCHEDULE');
 export type PolicyType = z.infer<typeof Policy>;
 export type AttributesType = z.infer<typeof Attributes>;
 export type ContentType = z.infer<typeof Content>;
@@ -86,4 +89,3 @@ export function percentage(count: number, total: number): string {
 export function validateSchedule(content: ContentType): void {
   if (Date.parse(content.closesAt) <= Date.parse(content.opensAt)) throw new Error('INVALID_SCHEDULE');
 }
-export const representativenessWarning = 'Добровільна участь із самовідбором. Результат описує учасників цього голосування й не є автоматично репрезентативною думкою населення.';

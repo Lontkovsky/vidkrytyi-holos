@@ -122,14 +122,15 @@
       "title": "Добровільне голосування видається за думку населення",
       "attackerCapabilities": "Misleading presentation and external screenshots",
       "trustBoundary": "Platform controls its own UI and exports only",
-      "controls": "Central result schema includes N, all answers, policy, time bounds and self-selection notice",
-      "residualRisk": "CSV/share-card consistency not implemented; external screenshots cannot be controlled",
+      "controls": "Strict shared result schema and publication gate; UI/API/JSON/CSV/SVG retain exact question/version, N, all answers, policy, times, verification and self-selection warning",
+      "residualRisk": "External copies, screenshots and spreadsheet reinterpretation cannot be controlled",
       "requirements": [
         "15.1",
         "15.5"
       ],
       "issues": [
         "https://github.com/Lontkovsky/vidkrytyi-holos/issues/24",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/26",
         "https://github.com/Lontkovsky/vidkrytyi-holos/issues/29"
       ],
       "prs": [],
@@ -138,12 +139,17 @@
       "implementationState": "Partial",
       "verification": [
         "tests/domain.test.ts",
+        "tests/result-exports.test.ts",
+        "tests/e2e/inapp.mjs",
         "tests/services.test.ts"
       ],
       "actualEvidence": [
-        "artifacts/services/tests.json"
+        "artifacts/services/tests.json",
+        "artifacts/e2e/report.json",
+        "artifacts/e2e/result.csv",
+        "artifacts/e2e/share.svg"
       ],
-      "remainingAcceptanceCriteria": "CSV/share-card consistency not implemented; external screenshots cannot be controlled"
+      "remainingAcceptanceCriteria": "Issue #26 local criteria are tested; CI/merge pending. Third-party misrepresentation remains outside platform control."
     },
     {
       "id": "A06",
@@ -251,7 +257,7 @@
       "attackerCapabilities": "A/B failure, delayed callbacks and conflicting claims",
       "trustBoundary": "A and B have distinct mock keys/processes; real upstream unknown",
       "controls": "Idempotent return; same person/credential through B; conflict revokes session; production mocks refused",
-      "residualRisk": "Production adapters AwaitingProviderContract; outage UI recovery paths pending",
+      "residualRisk": "Production adapters AwaitingProviderContract; real upstream independence and production attribute contracts unverified",
       "requirements": [
         "15.1",
         "15.9"

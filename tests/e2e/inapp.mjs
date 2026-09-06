@@ -1,5 +1,7 @@
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { execFileSync } from 'node:child_process';
+import { isDeepStrictEqual } from 'node:util';
 
 const root = new URL('../../', import.meta.url);
 const localDate = value => { const d = new Date(value); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16); };
@@ -29,17 +31,20 @@ export async function createRunner(tab) {
   }
   async function control(provider, available) { await fixture('/provider-control', { provider, available }); }
   async function unavailable() { await p.getByRole('alert').filter({ hasText: 'Провайдер недоступний.' }).waitFor({ state: 'visible' }); }
-  async function exported(button, prefix) {
+  async function exported(button, prefix, extension) {
     const before = new Set(await readdir(run.downloadDirectory));
     await click('button', button);
     let path;
     await until(async () => {
-      const files = (await readdir(run.downloadDirectory)).filter(name => !before.has(name) && name.startsWith(prefix) && name.endsWith('.json'));
+      const files = (await readdir(run.downloadDirectory)).filter(name => !before.has(name) && name.startsWith(prefix) && name.endsWith(extension));
       if (files.length > 1) throw new Error('AMBIGUOUS_DOWNLOADED_ARTIFACT');
       if (files.length === 0) return false;
       path = join(run.downloadDirectory, files[0]); return true;
     }, 'New completed ' + prefix + ' download');
-    return JSON.parse(await readFile(path, 'utf8'));
+    return readFile(path, 'utf8');
+  }
+  function parseExport(format, text) {
+    return JSON.parse(execFileSync('python3', [new URL('tests/support/read-exports.py', root).pathname], { input: JSON.stringify({ format, text }), encoding: 'utf8' }));
   }
   async function signOut() {
     if (await p.getByRole('button', { name: 'Вийти', exact: true }).count() === 1) await click('button', 'Вийти');
@@ -144,17 +149,32 @@ export async function createRunner(tab) {
       assertions.push('Fixed close enforced without deadline extension', 'Separate test trustees tally the browser ciphertexts', 'Published exact 1/1/1 counts and N=3 include abstention');
     },
     async exports(assertions) {
-      const result = await exported('Результат JSON', 'result-');
+      await signOut(); await openPoll();
+      await visible('heading', 'Результат серед 3 учасників цього голосування');
+      const result = JSON.parse(await exported('Результат JSON', 'result-', '.json'));
       if (result.question !== title || result.version !== 2 || result.acceptedVotes !== 3 || JSON.stringify(result.counts) !== '[1,1,1]' || !result.selfSelected || result.state !== 'Published' || result.closesAt !== run.closesAt) throw new Error('DOWNLOADED_RESULT_CONTRACT_MISMATCH');
-      const audit = await exported('Аудит-пакет', 'audit-');
+      const csv = await exported('Результат CSV', 'result-', '.csv');
+      if (!isDeepStrictEqual(parseExport('csv', csv).contract, result)) throw new Error('DOWNLOADED_CSV_CONTRACT_MISMATCH');
+      if (await p.locator('.result-question').innerText() !== result.question) throw new Error('VISIBLE_RESULT_QUESTION_MISMATCH');
+      await p.getByText('Переглянути картку поширення', { exact: true }).press('Enter'); await state();
+      await visible('button', 'Завантажити картку SVG');
+      await until(() => p.evaluate(() => { const image = document.querySelector('.share-card img'); return image !== null && image.complete && image.naturalWidth === 1080; }), 'Share card image loaded');
+      const svg = await exported('Завантажити картку SVG', 'share-', '.svg');
+      const card = parseExport('svg', svg);
+      if (!isDeepStrictEqual(card.contract, result) || card.title !== title || !card.text.includes('N = 3') || !card.text.includes('Утримуюсь: 1 · 33,3%')) throw new Error('DOWNLOADED_SVG_CONTRACT_MISMATCH');
+      await p.getByText('Переглянути картку поширення', { exact: true }).press('Enter'); await state();
+      if (await p.getByRole('button', { name: 'Завантажити картку SVG', exact: true }).isVisible()) throw new Error('SHARE_CARD_KEYBOARD_CLOSE_FAILED');
+      const audit = JSON.parse(await exported('Аудит-пакет', 'audit-', '.json'));
       if (JSON.stringify(audit.result) !== JSON.stringify(result) || JSON.parse(audit.electionRaw).uuid !== result.pollId || audit.checkpoints.length !== 3) throw new Error('DOWNLOADED_AUDIT_MISMATCH');
       await mkdir(new URL('artifacts/e2e', root), { recursive: true });
       await writeFile(new URL('artifacts/e2e/election.bel', root), Buffer.from(audit.archive, 'base64'));
       await writeFile(new URL('artifacts/e2e/result.json', root), JSON.stringify(result, null, 2) + '\n');
+      await writeFile(new URL('artifacts/e2e/result.csv', root), csv);
+      await writeFile(new URL('artifacts/e2e/share.svg', root), svg);
       await fill('Tracker', firstTracker); await click('button', 'Перевірити включення');
       await p.getByRole('status').filter({ hasText: 'Бюлетень включено. Підпис квитанції перевірено.' }).waitFor({ state: 'visible' });
       if (!(await p.getByText('Добровільна участь із самовідбором.', { exact: false }).count() >= 1)) throw new Error('SELF_SELECTION_WARNING_MISSING');
-      assertions.push('New JSON and audit files downloaded by the browser match the displayed result and fixed deadline', 'Native archive extracted unchanged from the downloaded audit for offline verification', 'Tracker still included after publication', 'Self-selection and representativeness warning stays visible');
+      assertions.push('Anonymous public results and real JSON, CSV, SVG and audit downloads share the exact contract', 'CSV independently round-trips all fields and types', 'Keyboard opens and closes the rendered share card', 'Share card retains exact question, N and all answer counts', 'Native archive extracted unchanged from the downloaded audit for offline verification', 'Tracker still included after publication', 'Self-selection and representativeness warning stays visible');
     },
     async providerContracts(assertions) {
       await signOut(); await click('link', 'Підтвердити участь');

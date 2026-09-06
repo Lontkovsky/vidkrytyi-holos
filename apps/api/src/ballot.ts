@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { isDeepStrictEqual } from 'node:util';
 import type pg from 'pg';
 import { Checkpoint, Envelope, Manifest, Receipt, ResultContract, representativenessWarning } from '../../../packages/domain/src/index.ts';
+import { resultCsv, resultSvg } from '../../../packages/domain/src/result-exports.ts';
 import { application, authorize, core, database, envelope, Failure, required, sha, transaction } from './common.ts';
 import type { ConfigType } from './common.ts';
 
@@ -32,6 +33,11 @@ export async function ballotApp(config: ConfigType) {
     const row = result.rows[0];
     if (!row) throw new Failure('POLL_NOT_FOUND', 404);
     return row;
+  }
+  async function publishedResult(id: string) {
+    const record = await election(id);
+    if (record.state !== 'Published') throw new Failure(record.state === 'ResultsSuppressed' ? 'RESULTS_SUPPRESSED' : 'RESULT_NOT_PUBLISHED', 409);
+    return ResultContract.parse(record.result);
   }
   app.post('/internal/register', async request => {
     authorize(request.headers.authorization, config.serviceToken);
@@ -173,9 +179,15 @@ export async function ballotApp(config: ConfigType) {
     return { state: input.state };
   });
   app.get('/v1/elections/:id/result', async request => {
-    const { id } = Params.parse(request.params), record = await election(id);
-    if (record.state !== 'Published') throw new Failure(record.state === 'ResultsSuppressed' ? 'RESULTS_SUPPRESSED' : 'RESULT_NOT_PUBLISHED', 409);
-    return ResultContract.parse(record.result);
+    return publishedResult(Params.parse(request.params).id);
+  });
+  app.get('/v1/elections/:id/result.csv', async (request, reply) => {
+    const { id } = Params.parse(request.params), result = await publishedResult(id);
+    return reply.type('text/csv; charset=utf-8; header=present').header('content-disposition', `attachment; filename="result-${id}.csv"`).send(resultCsv(result));
+  });
+  app.get('/v1/elections/:id/share.svg', async (request, reply) => {
+    const { id } = Params.parse(request.params), result = await publishedResult(id);
+    return reply.type('image/svg+xml; charset=utf-8').header('content-disposition', `attachment; filename="share-${id}.svg"`).send(resultSvg(result));
   });
   app.get('/v1/elections/:id/checkpoints', async request => {
     const { id } = Params.parse(request.params);
