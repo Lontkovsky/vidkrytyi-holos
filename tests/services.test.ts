@@ -1,14 +1,19 @@
 import { afterAll, describe, expect, it } from 'vitest';
 import { setTimeout } from 'node:timers/promises';
+import { randomUUID } from 'node:crypto';
+import { spawn } from 'node:child_process';
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { z } from 'zod';
-import { Envelope, Poll, Receipt, ResultContract } from '../packages/domain/src/index.ts';
+import { Envelope, Manifest, Poll, Receipt, ResultContract } from '../packages/domain/src/index.ts';
 import { database, pseudonym, readConfig, required, sha } from '../apps/api/src/common.ts';
 import { call, createPoll, fixtureContent, generateBallot, login, ok, approvedReview } from './support/flow.ts';
 import { FinalSet, Trust, verifyFinal } from '../packages/domain/src/checkpoints.ts';
 import { localCore } from '../scripts/local-core.ts';
 import { resultCsv, resultSvg } from '../packages/domain/src/result-exports.ts';
 import { Ceremony, writeOnce } from '../apps/api/src/provisioning.ts';
+import { ballotApp } from '../apps/api/src/ballot.ts';
+import { identityApp } from '../apps/api/src/identity.ts';
+import { CoreReport } from '../packages/domain/src/checkpoints.ts';
 
 const created: { id: string; cryptoId: string }[] = [];
 async function control(provider: 'A' | 'B', available: boolean, conflictingAttributes = false, delayMs = 0) {
@@ -251,4 +256,77 @@ describe('real service boundaries', () => {
     await pool.query('UPDATE persons SET revoked=false WHERE person=$1', [pseudonym('TEST-PERSON-0008', required(config.dedupKey))]);
     await pool.end();
   });
+
+  it('keeps the frozen roster and keys immutable and rejects foreign admission at the actual API boundary', async () => {
+    const manifest = Manifest.parse({ ...fixtureContent(new Date(Date.now() + 600000), 'Чи підтримуєте перевірку незмінного тестового реєстру?'),
+      id: randomUUID(), version: 1, environment: 'test', core: 'Belenios 3.3.0', release: '0.1.0-dev.1',
+      incidentPolicy: 'SecurityIncident|LegalContentRemoval|InvalidProof; reason required; no result-based cancellation' });
+    const setup = Ceremony.parse(await localCore({ action: 'setup', manifest, persons: ['TEST-PERSON-0001', 'TEST-PERSON-0003', 'TEST-PERSON-0004'] }));
+    created.push({ id: manifest.id, cryptoId: setup.uuid });
+    const variants = z.strictObject({ extendedRoster: z.string(), foreignBallot: z.string(), otherEnvironment: z.string(), changedContext: z.string(), otherPoll: z.string(), rotatedKeys: z.string() }).parse(await new Promise((resolve, reject) => {
+      const child = spawn('docker', ['run', '--rm', '-i', '--network', 'none', '--platform', 'linux/amd64', '--read-only',
+        '--tmpfs', '/tmp:size=256m,mode=1777', '--memory', '512m', '--cpus', '2', '-v', process.cwd() + '/tools:/tools:ro',
+        '--entrypoint', 'python3', 'openvote-crypto:3.3.0', '/tools/test_admission_variants.py'], { stdio: ['pipe', 'pipe', 'pipe'], timeout: 90000 });
+      let output = '';
+      child.stdout.setEncoding('utf8').on('data', chunk => { output += chunk; }); child.stderr.resume();
+      child.on('error', reject); child.on('exit', code => {
+        if (code !== 0) reject(new Error('PUBLIC_ADMISSION_FIXTURE_FAILED'));
+        else { try { resolve(JSON.parse(output)); } catch { reject(new Error('PUBLIC_ADMISSION_FIXTURE_INVALID')); } }
+      });
+      child.stdin.end(JSON.stringify({ archive: setup.archive }));
+    }));
+    const ballotConfig = await readConfig('ballot'), identityConfig = await readConfig('identity');
+    const box = await ballotApp({ ...ballotConfig, environment: 'test' }), identity = await identityApp(identityConfig);
+    const ballotStore = database(ballotConfig), identityStore = database(identityConfig);
+    const boxHeaders = { authorization: 'Bearer ' + ballotConfig.serviceToken }, identityHeaders = { authorization: 'Bearer ' + identityConfig.serviceToken };
+    const registration = { id: setup.uuid, electionRaw: setup.electionRaw, archive: setup.archive };
+    const roster = { pollId: setup.uuid, manifestHash: sha(setup.electionRaw), policy: manifest.policy, closesAt: manifest.closesAt, privateCredentials: setup.privateCredentials };
+    try {
+      expect((await box.inject({ method: 'POST', url: '/internal/register', payload: registration, headers: identityHeaders })).statusCode).toBe(401);
+      expect((await identity.inject({ method: 'POST', url: '/internal/register-roster', payload: roster, headers: boxHeaders })).statusCode).toBe(401);
+      for (let delivery = 0; delivery < 2; delivery++) {
+        expect((await box.inject({ method: 'POST', url: '/internal/register', payload: registration, headers: boxHeaders })).statusCode).toBe(200);
+        expect((await identity.inject({ method: 'POST', url: '/internal/register-roster', payload: roster, headers: identityHeaders })).statusCode).toBe(200);
+      }
+      expect(required((await ballotStore.query<{ count: number }>('SELECT count(*)::int AS count FROM checkpoints WHERE poll_id=$1', [setup.uuid])).rows[0]).count).toBe(1);
+      const priorRoster = (await identityStore.query('SELECT * FROM credentials WHERE poll_id=$1 ORDER BY person', [setup.uuid])).rows;
+      for (const payload of [
+        { ...roster, privateCredentials: { ...roster.privateCredentials, 'TEST-PERSON-0011': required(roster.privateCredentials['TEST-PERSON-0001']) } },
+        { ...roster, privateCredentials: { ...roster.privateCredentials, 'TEST-PERSON-0001': required(roster.privateCredentials['TEST-PERSON-0003']) } },
+        { ...roster, manifestHash: '0'.repeat(64) },
+      ]) {
+        const response = await identity.inject({ method: 'POST', url: '/internal/register-roster', payload, headers: identityHeaders });
+        expect(response.statusCode).toBe(409); expect(response.json()).toEqual({ error: 'IMMUTABLE_ROSTER_MISMATCH' });
+      }
+      // Compare privately: assertion output must not print sealed credentials.
+      expect(JSON.stringify((await identityStore.query('SELECT * FROM credentials WHERE poll_id=$1 ORDER BY person', [setup.uuid])).rows) === JSON.stringify(priorRoster)).toBe(true);
+      const changedRoster = await box.inject({ method: 'POST', url: '/internal/register', payload: { ...registration, archive: variants.extendedRoster }, headers: boxHeaders });
+      expect(changedRoster.statusCode).toBe(409); expect(changedRoster.json()).toEqual({ error: 'IMMUTABLE_ROSTER_MISMATCH' });
+      for (const archive of [variants.changedContext, variants.rotatedKeys]) {
+        const report = CoreReport.parse(await localCore({ action: 'verify', archive }));
+        const response = await box.inject({ method: 'POST', url: '/internal/register', payload: { id: setup.uuid, electionRaw: JSON.stringify(report.election), archive }, headers: boxHeaders });
+        expect(response.statusCode).toBe(409); expect(response.json()).toEqual({ error: 'IMMUTABLE_MANIFEST_MISMATCH' });
+      }
+      const otherEnvironment = CoreReport.parse(await localCore({ action: 'verify', archive: variants.otherEnvironment }));
+      const environmentResponse = await box.inject({ method: 'POST', url: '/internal/register', payload: { id: setup.uuid, electionRaw: JSON.stringify(otherEnvironment.election), archive: variants.otherEnvironment }, headers: boxHeaders });
+      expect(environmentResponse.statusCode).toBe(422); expect(environmentResponse.json()).toEqual({ error: 'INVALID_ENVIRONMENT_OR_DEADLINE' });
+      const foreign = await box.inject({ method: 'POST', url: `/v1/elections/${setup.uuid}/ballots`, payload: { ballot: variants.foreignBallot } });
+      expect(foreign.statusCode).toBe(422); expect(foreign.json()).toEqual({ error: 'REFERENCE_REJECTED' });
+      expect(required((await ballotStore.query<{ archive: string }>('SELECT archive FROM elections WHERE id=$1', [setup.uuid])).rows[0]).archive === setup.archive).toBe(true);
+      const ballot = await generateBallot(setup.archive, required(setup.privateCredentials['TEST-PERSON-0001']), 0);
+      for (const headers of [{ cookie: 'synthetic-session=forbidden' }, { 'x-user-id': 'TEST-PERSON-0001' }]) {
+        const response = await box.inject({ method: 'POST', url: `/v1/elections/${setup.uuid}/ballots`, payload: { ballot }, headers });
+        expect(response.statusCode).toBe(400); expect(response.json()).toEqual({ error: 'IDENTITY_METADATA_FORBIDDEN' });
+      }
+      const accepted = await box.inject({ method: 'POST', url: `/v1/elections/${setup.uuid}/ballots`, payload: { ballot } });
+      expect(accepted.statusCode).toBe(200);
+      expect((await box.inject({ method: 'POST', url: '/internal/register', payload: registration, headers: boxHeaders })).statusCode).toBe(200);
+      const saved = required((await ballotStore.query<{ archive: string }>('SELECT archive FROM elections WHERE id=$1', [setup.uuid])).rows[0]);
+      expect(CoreReport.parse(await localCore({ action: 'verify', archive: saved.archive })).ballotCount).toBe(1);
+      const other = CoreReport.parse(await localCore({ action: 'verify', archive: variants.otherPoll }));
+      created.push({ id: manifest.id, cryptoId: other.election.uuid });
+      expect((await box.inject({ method: 'POST', url: '/internal/register', payload: { id: other.election.uuid, electionRaw: JSON.stringify(other.election), archive: variants.otherPoll }, headers: boxHeaders })).statusCode).toBe(200);
+      expect((await box.inject({ method: 'POST', url: `/v1/elections/${other.election.uuid}/ballots`, payload: { ballot } })).statusCode).toBe(422);
+    } finally { await box.close(); await identity.close(); await ballotStore.end(); await identityStore.end(); }
+  }, 180000);
 });

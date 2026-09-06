@@ -8,6 +8,7 @@ import sys
 import tempfile
 import time
 from reference import command, export_archive, load_archive, process
+from test_admission_variants import variants as admission_variants
 
 checks = []
 started = time.monotonic()
@@ -30,6 +31,13 @@ persons = [f'TEST-PERSON-{i:04d}' for i in range(1, 6)]
 setup = process({'action': 'setup', 'manifest': manifest, 'persons': persons})
 archive = setup['archive']
 checks.append({'name': 'Reference 2-of-3 plus mandatory trustee ceremony', 'outcome': 'Passed', 'evidence': 'AutomatedTested'})
+admission = admission_variants(archive)
+rejected('Genuine foreign issuer credential absent from the frozen roster',
+         {'action': 'accept', 'archive': archive, 'ballot': admission['foreignBallot']})
+expanded = process({'action': 'accept', 'archive': admission['extendedRoster'], 'ballot': admission['foreignBallot']})
+assert process({'action': 'verify', 'archive': expanded['archive']})['ballotCount'] == 1
+checks.append({'name': 'A replaced trusted roster admits an issuer-created credential without proving a person exists',
+               'outcome': 'KnownLimitation', 'evidence': 'AutomatedTested'})
 ballots = []
 choices = [0, 0, 1, 2, 0]
 for person, answer in zip(persons, choices):
@@ -39,6 +47,16 @@ for person, answer in zip(persons, choices):
     ballots.append(ballot)
     accepted = process({'action': 'accept', 'archive': archive, 'ballot': ballot})
     archive = accepted['archive']
+for name, target in [('same UUID in another environment', admission['otherEnvironment']),
+                     ('same UUID with changed official context', admission['changedContext']),
+                     ('same UUID with rotated trustee keys', admission['rotatedKeys'])]:
+    target_report = process({'action': 'verify', 'archive': target})
+    assert target_report['election']['uuid'] == setup['uuid']
+    rejected('Replay into ' + name, {'action': 'accept', 'archive': target, 'ballot': ballots[0]})
+other = process({'action': 'verify', 'archive': admission['otherPoll']})
+assert other['election']['uuid'] != setup['uuid']
+rejected('Replay into another election with identical question and policy',
+         {'action': 'accept', 'archive': admission['otherPoll'], 'ballot': ballots[0]})
 same = process({'action': 'accept', 'archive': archive, 'ballot': ballots[0]})
 assert same['replayed'] and same['archive'] == archive
 checks.append({'name': 'Byte-identical redelivery is idempotent', 'outcome': 'Passed', 'evidence': 'AutomatedTested'})

@@ -32,7 +32,7 @@ pnpm build
 
 Open [the local application](http://localhost:5173). `seed` creates one immutable seven-day synthetic poll and is idempotent. Select a predefined `TEST-PERSON` identity; never supply real documents. Person 0012 is the test moderator. Other fixtures include a non-owner, a minor and a non-UA citizen to exercise explicit eligibility rules. Session refresh requires re-identification; it never resets voting rights. Generated credentials and trustee files are private, ignored `.runtime/` data. Do not publish that directory.
 
-The integration tests use live local services and native cryptography. They remove only the poll fixtures they created. Interactive browser checks reuse the existing in-app Browser and are separate from the CLI tests. Follow [the E2E procedure](docs/BROWSER_TESTING.md) to run `pnpm test:e2e` with the explicitly supplied Browser download directory and the existing tab binding. The checked-in run passed creation, review, encrypted participation, duplicate rejection, fixed close, tally, tracker and actual file exports. Complete negative/keyboard/offline coverage and final release instructions remain open.
+The integration tests use live local services and native cryptography. They remove only the poll fixtures they created. Interactive browser checks reuse the existing in-app Browser and are separate from the CLI tests. Follow [the E2E procedure](docs/BROWSER_TESTING.md) to run `pnpm test:e2e` with the explicitly supplied Browser download directory and the existing tab binding. The latest run passed creation, review, encrypted participation, duplicate rejection, fixed close and tally, then failed at file download. [Browser evidence status](artifacts/e2e/README.md) distinguishes that incomplete run from historical successful exports. Complete negative/keyboard/offline coverage and final release instructions remain open.
 
 <a id="verification"></a>
 
@@ -45,6 +45,8 @@ pnpm verify artifacts/e2e/election.bel
 The separate [public observer](docs/OBSERVER.md) persists signed history, checks a published native tally and compares independent observations for conflicting histories. Its `observer` and `audit:export` commands require an explicitly trusted poll/key configuration. They never initialize missing history implicitly or use an identity session. The reproducible observer tests run with `pnpm exec vitest run tests/observer.test.ts` against the committed browser audit. Split-view detection requires observers to exchange incompatible evidence; it is not guaranteed while they remain isolated.
 
 [Trustee verification](docs/TRUSTEE_VERIFICATION.md) documents native proof validation before share storage, final-set binding, real zero/one/two-ballot suppression tests and the limits of a first signed history or an unanimous result. The adapter calls the original Belenios library; it does not implement voting cryptographic primitives.
+
+[Admission verification](docs/ADMISSION_VERIFICATION.md) covers genuine foreign credentials, replay across polls/environments/context/keys, immutable API registration and the distinct limitation of a replaced trusted roster. All identities and key material in those scenarios are synthetic.
 
 To reproduce the current slice with Git, Docker and Python 3:
 
