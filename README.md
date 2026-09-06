@@ -44,6 +44,8 @@ pnpm verify artifacts/e2e/election.bel
 
 The separate [public observer](docs/OBSERVER.md) persists signed history, checks a published native tally and compares independent observations for conflicting histories. Its `observer` and `audit:export` commands require an explicitly trusted poll/key configuration. They never initialize missing history implicitly or use an identity session. The reproducible observer tests run with `pnpm exec vitest run tests/observer.test.ts` against the committed browser audit. Split-view detection requires observers to exchange incompatible evidence; it is not guaranteed while they remain isolated.
 
+[Trustee verification](docs/TRUSTEE_VERIFICATION.md) documents native proof validation before share storage, final-set binding, real zero/one/two-ballot suppression tests and the limits of a first signed history or an unanimous result. The adapter calls the original Belenios library; it does not implement voting cryptographic primitives.
+
 To reproduce the current slice with Git, Docker and Python 3:
 
 ```sh

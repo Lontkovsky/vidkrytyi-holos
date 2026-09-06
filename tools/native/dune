@@ -1,0 +1,3 @@
+(executable
+ (name share_verify)
+ (libraries belenios-platform-native belenios-lib))

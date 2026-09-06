@@ -2,7 +2,7 @@
   "core": "Belenios 3.3.0",
   "source": "337887bd1862c7cd057080b530fd80941bfc3c69",
   "scenario": "synthetic reference CLI tract; browser tract not covered by this command",
-  "seconds": 31.262,
+  "seconds": 38.173,
   "checks": [
     {
       "name": "Reference 2-of-3 plus mandatory trustee ceremony",
@@ -40,7 +40,52 @@
       "evidence": "AutomatedTested"
     },
     {
+      "name": "Every mandatory and threshold share passes native check_factor before storage",
+      "outcome": "Passed",
+      "evidence": "AutomatedTested"
+    },
+    {
+      "name": "Hash-consistent corrupted partial decryption proof",
+      "outcome": "Rejected",
+      "evidence": "AutomatedTested"
+    },
+    {
+      "name": "Genuine partial decryption assigned to another trustee",
+      "outcome": "Rejected",
+      "evidence": "AutomatedTested"
+    },
+    {
+      "name": "Partial decryption payload hash substitution",
+      "outcome": "Rejected",
+      "evidence": "AutomatedTested"
+    },
+    {
+      "name": "Partial decryption intake before closure",
+      "outcome": "Rejected",
+      "evidence": "AutomatedTested"
+    },
+    {
       "name": "Insufficient quorum",
+      "outcome": "Rejected",
+      "evidence": "AutomatedTested"
+    },
+    {
+      "name": "Threshold trustees without mandatory trustee",
+      "outcome": "Rejected",
+      "evidence": "AutomatedTested"
+    },
+    {
+      "name": "Corrupt partial decryption in a complete quorum",
+      "outcome": "Rejected",
+      "evidence": "AutomatedTested"
+    },
+    {
+      "name": "Each two-of-three threshold quorum plus mandatory trustee yields the same native tally",
+      "outcome": "Passed",
+      "evidence": "AutomatedTested"
+    },
+    {
+      "name": "Partial decryption intake after publication",
       "outcome": "Rejected",
       "evidence": "AutomatedTested"
     },

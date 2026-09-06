@@ -90,6 +90,32 @@ def export_archive(directory):
     return base64.b64encode(files[0].read_bytes()).decode()
 
 
+def verify_share(directory, raw, details, share):
+    if not any(e['type'] == 'EndBallots' for e in details['events']):
+        raise ValueError('NOT_FINAL')
+    if details['result'] is not None:
+        raise ValueError('ALREADY_PUBLISHED')
+    if len(details['ballots']) < json.loads(details['election']['description'])['publicationThreshold']:
+        raise ValueError('RESULTS_SUPPRESSED')
+    data, events = event_data(raw)
+    setup = data[next(e['payload'] for e in events if e['type'] == 'Setup')]
+    tally = data[next(e['payload'] for e in events if e['type'] == 'EncryptedTally')]
+    # These are exact reference data bytes from the already verified archive.
+    with tarfile.open(fileobj=io.BytesIO(raw), mode='r:') as stream:
+        for name, fingerprint in [('election.json', setup['election']),
+                                  ('trustees.json', setup['trustees']),
+                                  ('tally.json', tally['encrypted_tally'])]:
+            write(directory, name, stream.extractfile(fingerprint + '.data.json').read().decode())
+    write(directory, 'share.jsons', share)
+    checked = subprocess.run(['openvote-share-verify', 'election.json', 'trustees.json',
+                              'tally.json', 'share.jsons'], cwd=directory,
+                             capture_output=True, timeout=90)
+    if checked.returncode != 0:
+        raise ValueError('REFERENCE_REJECTED:share')
+    return {'verifiedBy': f'Belenios {VERSION} check_factor',
+            'trusteeId': json.loads(share.split('\n')[1])['owner']}
+
+
 def setup(directory, request):
     manifest = request['manifest']
     if manifest['environment'] not in ['development', 'test', 'demo']:
@@ -213,6 +239,8 @@ def process(request):
                 share = command(directory, 'election', 'decrypt-threshold', '--key', 'trustee.key',
                                 '--decryption-key', 'trustee.dkey', '--trustee-id', str(key['id']))
             return {'share': share}
+        if action == 'verify-share':
+            return verify_share(directory, raw, details, request['share'])
         if action == 'finalize':
             if not any(e['type'] == 'EndBallots' for e in details['events']):
                 raise ValueError('NOT_FINAL')

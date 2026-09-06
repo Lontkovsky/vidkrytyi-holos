@@ -133,6 +133,9 @@ export async function ballotApp(config: ConfigType) {
       const parsed = z.strictObject({ owner: z.number().int(), payload: z.string() }).parse(JSON.parse(required(lines[1])));
       if (sha(required(lines[0])) !== parsed.payload) throw new Failure('INVALID_SHARE_FORMAT', 422);
       if (parsed.owner !== input.trusteeId) throw new Failure('TRUSTEE_ID_MISMATCH', 422);
+      const verified = z.strictObject({ verifiedBy: z.literal('Belenios 3.3.0 check_factor'), trusteeId: z.number().int() }).parse(
+        await core(config, { action: 'verify-share', archive: required(record.final_archive), share: input.share }));
+      if (verified.trusteeId !== input.trusteeId) throw new Failure('TRUSTEE_ID_MISMATCH', 422);
       const existing = await client.query<{ share: string }>('SELECT share FROM shares WHERE poll_id=$1 AND trustee_id=$2', [id, input.trusteeId]);
       if (existing.rows[0]) {
         if (existing.rows[0].share !== input.share) throw new Failure('SHARE_ALREADY_RECORDED', 409);

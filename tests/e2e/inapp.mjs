@@ -178,6 +178,8 @@ export async function createRunner(tab) {
       await p.getByText('Суперечливі історії виявляються після обміну свідченнями.', { exact: false }).waitFor({ state: 'visible' });
       await openPoll();
       assertions.push('Trust center discloses the independent observer and the split-view comparison condition');
+      await p.getByText('За одностайного результату відомий факт участі розкриває відповідь учасника.', { exact: false }).waitFor({ state: 'visible' });
+      assertions.push('Participation policy explains that the minimum group threshold does not hide an unanimous choice');
       assertions.push('Anonymous public results and real JSON, CSV, SVG and audit downloads share the exact contract', 'CSV independently round-trips all fields and types', 'Keyboard opens and closes the rendered share card', 'Share card retains exact question, N and all answer counts', 'Native archive extracted unchanged from the downloaded audit for offline verification', 'Tracker still included after publication', 'Self-selection and representativeness warning stays visible');
     },
     async providerContracts(assertions) {
