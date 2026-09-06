@@ -41,15 +41,16 @@
       "title": "Фіктивні голоси від власника або issuer",
       "attackerCapabilities": "Operator forges or issues credentials",
       "trustBoundary": "Credential authority and precommitted registry",
-      "controls": "Native credential/proof verification; immutable registration",
-      "residualRisk": "Compromised credential authority can admit fictitious persons; complete role/collusion tests pending",
+      "controls": "Native verification rejects a genuine foreign credential; API registration preserves the frozen roster, manifest and trustee keys",
+      "residualRisk": "Replacing the trusted roster admits an issuer-created credential without proving a person exists; independently trusted roster provenance and complete role/collusion evidence remain open",
       "requirements": [
         "15.1",
         "15.3"
       ],
       "issues": [
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/19",
         "https://github.com/Lontkovsky/vidkrytyi-holos/issues/20",
-        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/26"
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/31"
       ],
       "prs": [
         "https://github.com/Lontkovsky/vidkrytyi-holos/pull/42"
@@ -58,12 +59,15 @@
       "evidenceState": "AutomatedTested",
       "implementationState": "Partial",
       "verification": [
-        "tools/test_reference.py"
+        "tools/test_reference.py",
+        "tools/test_admission_variants.py",
+        "tests/services.test.ts"
       ],
       "actualEvidence": [
-        "artifacts/reference/reference-report.json"
+        "artifacts/reference/reference-report.json",
+        "artifacts/services/tests.json"
       ],
-      "remainingAcceptanceCriteria": "Compromised credential authority can admit fictitious persons; complete role/collusion tests pending"
+      "remainingAcceptanceCriteria": "Replacing the trusted roster admits an issuer-created credential without proving a person exists; independently trusted roster provenance and complete role/collusion evidence remain open"
     },
     {
       "id": "A03",
@@ -177,10 +181,12 @@
       "evidenceState": "AutomatedTested",
       "implementationState": "Partial",
       "verification": [
-        "tests/services.test.ts"
+        "tests/services.test.ts",
+        "tools/test_reference.py"
       ],
       "actualEvidence": [
-        "artifacts/services/tests.json"
+        "artifacts/services/tests.json",
+        "artifacts/reference/reference-report.json"
       ],
       "remainingAcceptanceCriteria": "Malicious language suite and source/content removal policy tests pending"
     },
@@ -227,8 +233,17 @@
       "defenseOutcome": "PartiallyMitigated",
       "evidenceState": "AutomatedTested",
       "implementationState": "Partial",
-      "verification": ["tests/observer.test.ts", "scripts/observer.ts", "scripts/audit-export.ts"],
-      "actualEvidence": ["artifacts/services/tests.json", "artifacts/observer/observation.json", "artifacts/observer/audit.json", "docs/OBSERVER.md"],
+      "verification": [
+        "tests/observer.test.ts",
+        "scripts/observer.ts",
+        "scripts/audit-export.ts"
+      ],
+      "actualEvidence": [
+        "artifacts/services/tests.json",
+        "artifacts/observer/observation.json",
+        "artifacts/observer/audit.json",
+        "docs/OBSERVER.md"
+      ],
       "remainingAcceptanceCriteria": "Observer PR #47 merged after passing local tests and CI. Lawful tombstones, coordinated withdrawal and external read-only restoration remain open."
     },
     {
