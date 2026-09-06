@@ -1,13 +1,12 @@
 {
-  "runId": "9b10c9328d",
-  "sourceHash": "de755d0f15d265f478d7107a6187a7b70ffe255df380f0f771edb2c5a46ff177",
-  "finalSourceHash": "de755d0f15d265f478d7107a6187a7b70ffe255df380f0f771edb2c5a46ff177",
+  "runId": "d95f96c3f6",
+  "sourceHash": "3fbfbfb36c35f857478434a94fe4a5750879cdeac78827e80606fb9c29d8b015",
+  "finalSourceHash": "3fbfbfb36c35f857478434a94fe4a5750879cdeac78827e80606fb9c29d8b015",
   "browser": "Existing in-app Browser; supplied tab.playwright binding",
   "standaloneBrowserStarted": false,
-  "startedAt": "2026-09-06T20:26:10.853Z",
-  "finishedAt": "2026-09-06T20:30:28.019Z",
+  "startedAt": "2026-09-06T21:30:46.989Z",
+  "finishedAt": "2026-09-06T21:36:34.142Z",
   "passed": false,
-  "failure": "Run interrupted",
   "results": [
     {
       "step": "create",
@@ -57,6 +56,37 @@
       "assertions": [
         "Abstention is accepted as the third choice"
       ]
+    },
+    {
+      "step": "duplicate",
+      "status": "Passed",
+      "assertions": [
+        "Same person through another provider cannot change final vote"
+      ]
+    },
+    {
+      "step": "tallyStart",
+      "status": "Passed",
+      "assertions": [
+        "Operator closes at the fixed deadline and requests threshold tally"
+      ]
+    },
+    {
+      "step": "publish",
+      "status": "Passed",
+      "assertions": [
+        "Fixed close enforced without deadline extension",
+        "Separate test trustees tally the browser ciphertexts",
+        "Published exact 1/1/1 counts and N=3 include abstention"
+      ]
+    },
+    {
+      "step": "exports",
+      "status": "Failed",
+      "assertions": [
+        "Stage did not complete"
+      ],
+      "error": "UI_STATE_DEADLINE: New completed result- download"
     }
   ]
 }

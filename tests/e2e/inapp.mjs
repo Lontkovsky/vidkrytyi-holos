@@ -106,6 +106,7 @@ export async function createRunner(tab) {
     async reviewStart(assertions) {
       await signOut(); await click('link', 'Підтвердити участь'); await signIn('TEST-PERSON-0012', 'A');
       await click('link', 'Модерація');
+      await visible('link', title);
       const form = p.locator('form').filter({ has: p.getByRole('link', { name: title, exact: true }) });
       if (await form.count() !== 1) throw new Error('REVIEW_CARD_NOT_UNIQUE');
       for (const label of ['Одна пропозиція без навідного формулювання', 'Без подвійного заперечення', 'Терміни зрозумілі', 'Умови й істотні наслідки явні', 'Факти відокремлені від оцінок']) { await form.getByLabel(label, { exact: true }).check(); await state(); }
