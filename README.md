@@ -32,7 +32,15 @@ pnpm build
 
 Open [the local application](http://localhost:5173). `seed` creates one immutable seven-day synthetic poll and is idempotent. Select a predefined `TEST-PERSON` identity; never supply real documents. Person 0012 is the test moderator. Other fixtures include a non-owner, a minor and a non-UA citizen to exercise explicit eligibility rules. Session refresh requires re-identification; it never resets voting rights. Generated credentials and trustee files are private, ignored `.runtime/` data. Do not publish that directory.
 
-The integration tests use live local services and native cryptography. They remove only the poll fixtures they created. Interactive browser checks reuse the existing in-app Browser and are separate from the CLI tests. The full E2E command and final release instructions are not yet delivered.
+The integration tests use live local services and native cryptography. They remove only the poll fixtures they created. Interactive browser checks reuse the existing in-app Browser and are separate from the CLI tests. Follow [the E2E procedure](docs/BROWSER_TESTING.md) to run `pnpm test:e2e` with the explicitly supplied Browser download directory and the existing tab binding. The checked-in run passed creation, review, encrypted participation, duplicate rejection, fixed close, tally, tracker and actual file exports. Complete negative/keyboard/offline coverage and final release instructions remain open.
+
+<a id="verification"></a>
+
+Verify the archive downloaded by the browser without identity storage:
+
+```sh
+pnpm verify artifacts/e2e/election.bel
+```
 
 To reproduce the current slice with Git, Docker and Python 3:
 
