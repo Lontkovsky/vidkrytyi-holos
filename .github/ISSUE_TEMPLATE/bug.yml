@@ -1,0 +1,15 @@
+name: Reproducible bug
+description: Report a non-sensitive reproducible defect
+body:
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Synthetic reproduction, expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Revision, environment and redacted evidence
+    validations:
+      required: true

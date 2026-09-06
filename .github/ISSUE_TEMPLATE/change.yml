@@ -1,0 +1,21 @@
+name: Product change
+description: Propose a bounded change
+body:
+  - type: textarea
+    id: scope
+    attributes:
+      label: User value, requirements, scope and exclusions
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria, positive and negative verification
+    validations:
+      required: true
+  - type: textarea
+    id: privacy
+    attributes:
+      label: Dependencies and privacy/security implications
+    validations:
+      required: true
