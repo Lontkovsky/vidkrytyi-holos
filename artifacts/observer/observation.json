@@ -1,0 +1,35 @@
+{
+  "format": "openvote-observer-v1",
+  "config": {
+    "ballotOrigin": "http://127.0.0.1:4302",
+    "managementOrigin": "http://127.0.0.1:4303",
+    "trust": {
+      "pollId": "bWR6QtTPMZawJd",
+      "manifestHash": "94e1f62dc2e8bbdee625420973e419beb60174cb571c5b373975d6d4c7b5b1d7",
+      "publicKey": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEA4xS1hlkPb7Q3xULimE/cG3cRPRz4yVxWJu10kFbAvHc=\n-----END PUBLIC KEY-----\n"
+    },
+    "receipts": [
+      {
+        "payload": "{\"protocol\":\"openvote-receipt-v1\",\"pollId\":\"bWR6QtTPMZawJd\",\"manifestHash\":\"94e1f62dc2e8bbdee625420973e419beb60174cb571c5b373975d6d4c7b5b1d7\",\"tracker\":\"Jo/VQrPmmVa4U+lC1Fg/Zsiug5jCrJ1pRlaG0eqz+gM\"}",
+        "signature": "lNBSykXAH8MS853wpbyOQZJZskzwKripSh3K4ZAR9EK7afRCDzZqJHZDUCcLFw+P4+oLdIjYtDIEOrdKXCulDw=="
+      }
+    ]
+  },
+  "managementId": "6dc92502-ab9e-4546-9d7d-c5b6d30064f3",
+  "checkpoints": [
+    {
+      "payload": "{\"protocol\":\"openvote-checkpoint-v1\",\"pollId\":\"bWR6QtTPMZawJd\",\"manifestHash\":\"94e1f62dc2e8bbdee625420973e419beb60174cb571c5b373975d6d4c7b5b1d7\",\"sequence\":0,\"previous\":null,\"archiveHash\":\"75cba75c4a7393a94a55e581de13818234dcc79a86d1c9be5951473adda7a1dd\",\"state\":\"Scheduled\",\"receipts\":[]}",
+      "signature": "ZVUMTEvAYThTsBcWuyII85plA2PWVd1YGjRTbD3dXiuswoY4+jY1A7QkHZgS0E89meLJ+NYTO/7n5EZ+2liHBA=="
+    },
+    {
+      "payload": "{\"protocol\":\"openvote-checkpoint-v1\",\"pollId\":\"bWR6QtTPMZawJd\",\"manifestHash\":\"94e1f62dc2e8bbdee625420973e419beb60174cb571c5b373975d6d4c7b5b1d7\",\"sequence\":1,\"previous\":\"bf1927d2f3ba6dcfdc5268e69fdc296c0ac1ffcfeca3710d3457d9d1cc562d49\",\"archiveHash\":\"5bba4fb8e823fcebce63dfe40b0695e1ac11f92140c843d58eff81b0a864767d\",\"state\":\"Closed\",\"receipts\":[\"Jo/VQrPmmVa4U+lC1Fg/Zsiug5jCrJ1pRlaG0eqz+gM\",\"rKWc7M1v8q9MKnB3dcQzQ7I7ypxTkEp/NakVHF1nEtk\",\"wCN5Rvq+EW88c44s1AwlzUjPPbvu+EcH4KSvpMFLnkM\"]}",
+      "signature": "sIogfhd9HvdwcTeeuhKHXJ9e5fRkK0URAhiD5ltATzitZXTKM4a7GFwwR1CwUWZGSBitwiN5FWfIf41YZ8GADw=="
+    },
+    {
+      "payload": "{\"protocol\":\"openvote-checkpoint-v1\",\"pollId\":\"bWR6QtTPMZawJd\",\"manifestHash\":\"94e1f62dc2e8bbdee625420973e419beb60174cb571c5b373975d6d4c7b5b1d7\",\"sequence\":2,\"previous\":\"e72c7f123d3a7c120d2cbe0b493f82a672c184fcf003ec7cc8db028833e0448a\",\"archiveHash\":\"08d707dbd979b35844392734ec9a31e067cb33f92619d47190156679ad0c271d\",\"state\":\"Published\",\"receipts\":[\"Jo/VQrPmmVa4U+lC1Fg/Zsiug5jCrJ1pRlaG0eqz+gM\",\"rKWc7M1v8q9MKnB3dcQzQ7I7ypxTkEp/NakVHF1nEtk\",\"wCN5Rvq+EW88c44s1AwlzUjPPbvu+EcH4KSvpMFLnkM\"]}",
+      "signature": "J6Llx0ELNGNIoJn69zo73a8eW4FVGXIHF+J+8LZ1pSpPRSagKmpTaQhADHC9pys3QB7cmdwucb9L6mtI4IU5Aw=="
+    }
+  ],
+  "verification": "ReferenceVerified",
+  "publishedArchiveHash": "08d707dbd979b35844392734ec9a31e067cb33f92619d47190156679ad0c271d"
+}

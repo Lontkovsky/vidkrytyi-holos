@@ -149,7 +149,7 @@
         "artifacts/e2e/result.csv",
         "artifacts/e2e/share.svg"
       ],
-      "remainingAcceptanceCriteria": "Issue #26 local criteria are tested; CI/merge pending. Third-party misrepresentation remains outside platform control."
+      "remainingAcceptanceCriteria": "Issue #26 implemented and merged after CI. Third-party misrepresentation remains outside platform control."
     },
     {
       "id": "A06",
@@ -207,24 +207,24 @@
       "title": "Цензура та суперечливі історії",
       "attackerCapabilities": "Operator rolls back DB or serves split views",
       "trustBoundary": "Observers must exchange incompatible evidence",
-      "controls": "Signed chained checkpoints and receipts; incident reason API",
-      "residualRisk": "Working observer, lawful tombstones and external read-only restoration not implemented",
+      "controls": "Separate public observer with pinned signer/manifest, signed history persistence, known acknowledgements, closed-set freeze, catalogue/content comparison and native public result verification",
+      "residualRisk": "Observers must exchange evidence to detect isolated forks; own retained state/trust distribution must be protected. Lawful tombstones and external read-only restoration remain open",
       "requirements": [
         "15.1",
         "15.7"
       ],
       "issues": [
-        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/28",
-        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/31",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/27",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/29",
         "https://github.com/Lontkovsky/vidkrytyi-holos/issues/33"
       ],
       "prs": [],
       "defenseOutcome": "PartiallyMitigated",
-      "evidenceState": "NotTested",
+      "evidenceState": "AutomatedTested",
       "implementationState": "Partial",
-      "verification": [],
-      "actualEvidence": [],
-      "remainingAcceptanceCriteria": "Working observer, lawful tombstones and external read-only restoration not implemented"
+      "verification": ["tests/observer.test.ts", "scripts/observer.ts", "scripts/audit-export.ts"],
+      "actualEvidence": ["artifacts/services/tests.json", "artifacts/observer/observation.json", "artifacts/observer/audit.json", "docs/OBSERVER.md"],
+      "remainingAcceptanceCriteria": "Observer local tests passed; PR/CI pending. Lawful tombstones, coordinated withdrawal and external read-only restoration remain open."
     },
     {
       "id": "A09",

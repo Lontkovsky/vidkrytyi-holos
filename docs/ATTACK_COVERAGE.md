@@ -11,7 +11,7 @@ Machine-readable source: [attack-coverage.json](attack-coverage.json). Defense o
 | A05 | Добровільне голосування видається за думку населення | PartiallyMitigated | AutomatedTested | UI/API/JSON/CSV/SVG consistency tested; external copies, screenshots and spreadsheet reinterpretation cannot be controlled |
 | A06 | Маніпуляція формулюванням і контекстом | PartiallyMitigated | AutomatedTested | Malicious language suite and source/content removal policy tests pending |
 | A07 | Дублікати та захоплення каталогу | PartiallyMitigated | NotTested | Mass publishing and quota bypass tests pending |
-| A08 | Цензура та суперечливі історії | PartiallyMitigated | NotTested | Working observer, lawful tombstones and external read-only restoration not implemented |
+| A08 | Цензура та суперечливі історії | PartiallyMitigated | AutomatedTested | Observer detects known-history rollback, receipt loss, substitution and compared forks; lawful tombstones/read-only restoration remain open; isolated forks need evidence exchange |
 | A09 | Підміна збірки та непрозоре управління | PartiallyMitigated | NotTested | Two-clean-build comparison, independent client monitor and release locking pending |
 | A10 | Недоступність провайдера ідентифікації | PartiallyMitigated | AutomatedTested | Synthetic A/B, expiry races and bounded UI recovery tested; production adapters and real upstream independence await contracts |
 | A11 | Купівля голосів і примус | KnownLimitation | NotTested | Belenios integration provides neither receipt-freeness nor coercion resistance; explicit limitation experiments pending |

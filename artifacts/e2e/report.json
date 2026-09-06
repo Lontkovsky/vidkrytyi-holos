@@ -1,11 +1,11 @@
 {
-  "runId": "db15d4b231",
-  "sourceHash": "62c27332ff035bd2bf06c117890f430794ac99925ebef160d78b5edd7bd38e88",
-  "finalSourceHash": "62c27332ff035bd2bf06c117890f430794ac99925ebef160d78b5edd7bd38e88",
+  "runId": "3e69dc6d08",
+  "sourceHash": "60f66bccb46b72e18bc239f0eeae041e714e15a66256b74c94a67086d734b03a",
+  "finalSourceHash": "60f66bccb46b72e18bc239f0eeae041e714e15a66256b74c94a67086d734b03a",
   "browser": "Existing in-app Browser; supplied tab.playwright binding",
   "standaloneBrowserStarted": false,
-  "startedAt": "2026-09-06T18:52:23.064Z",
-  "finishedAt": "2026-09-06T18:58:52.284Z",
+  "startedAt": "2026-09-06T19:42:16.283Z",
+  "finishedAt": "2026-09-06T19:49:32.831Z",
   "passed": true,
   "results": [
     {
@@ -84,6 +84,7 @@
       "step": "exports",
       "status": "Passed",
       "assertions": [
+        "Trust center discloses the independent observer and the split-view comparison condition",
         "Anonymous public results and real JSON, CSV, SVG and audit downloads share the exact contract",
         "CSV independently round-trips all fields and types",
         "Keyboard opens and closes the rendered share card",

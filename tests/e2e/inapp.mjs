@@ -174,6 +174,10 @@ export async function createRunner(tab) {
       await fill('Tracker', firstTracker); await click('button', 'Перевірити включення');
       await p.getByRole('status').filter({ hasText: 'Бюлетень включено. Підпис квитанції перевірено.' }).waitFor({ state: 'visible' });
       if (!(await p.getByText('Добровільна участь із самовідбором.', { exact: false }).count() >= 1)) throw new Error('SELF_SELECTION_WARNING_MISSING');
+      await click('link', 'Центр довіри'); await visible('heading', 'Зовнішні спостерігачі');
+      await p.getByText('Суперечливі історії виявляються після обміну свідченнями.', { exact: false }).waitFor({ state: 'visible' });
+      await openPoll();
+      assertions.push('Trust center discloses the independent observer and the split-view comparison condition');
       assertions.push('Anonymous public results and real JSON, CSV, SVG and audit downloads share the exact contract', 'CSV independently round-trips all fields and types', 'Keyboard opens and closes the rendered share card', 'Share card retains exact question, N and all answer counts', 'Native archive extracted unchanged from the downloaded audit for offline verification', 'Tracker still included after publication', 'Self-selection and representativeness warning stays visible');
     },
     async providerContracts(assertions) {
