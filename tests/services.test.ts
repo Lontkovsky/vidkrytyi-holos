@@ -3,7 +3,7 @@ import { setTimeout } from 'node:timers/promises';
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { z } from 'zod';
 import { Envelope, Poll, Receipt, ResultContract } from '../packages/domain/src/index.ts';
-import { database, readConfig, required } from '../apps/api/src/common.ts';
+import { database, pseudonym, readConfig, required } from '../apps/api/src/common.ts';
 import { call, createPoll, fixtureContent, generateBallot, login, ok, approvedReview } from './support/flow.ts';
 import { FinalSet, Trust, verifyFinal } from '../packages/domain/src/checkpoints.ts';
 import { localCore } from '../scripts/local-core.ts';
@@ -52,6 +52,51 @@ describe('real service boundaries', () => {
     await control('A', true); await control('B', true);
   });
 
+  it('expires pending identity returns before granting a session', async () => {
+    const start = z.object({ attempt: z.string() }).parse(await ok('identity', '/v1/auth/start', 'POST', { provider: 'A', subject: 'TEST-PERSON-0002' }));
+    await control('A', true, false, 2000);
+    const finishing = call('identity', '/v1/auth/finish', 'POST', start);
+    const config = await readConfig('provider-A');
+    let pending = 0;
+    const deadline = Date.now() + 1000;
+    while (pending === 0 && Date.now() < deadline) {
+      const observed = await fetch('http://127.0.0.1:4312/control', { headers: { authorization: 'Bearer ' + config.serviceToken } });
+      pending = z.object({ pending: z.number() }).parse(await observed.json()).pending;
+      if (pending === 0) await setTimeout(10);
+    }
+    expect(pending).toBe(1);
+    const pool = database(await readConfig('identity'));
+    await pool.query('UPDATE attempts SET expires_at=now() WHERE id=$1', [start.attempt]);
+    await pool.end();
+    const result = await finishing;
+    expect(result.status).toBe(410);
+    expect(result.value).toEqual({ error: 'IDENTITY_RETURN_EXPIRED' });
+    await control('A', true);
+  });
+
+  it('checks return expiry after waiting for the person transaction lock', async () => {
+    const cfg = await readConfig('identity'), pool = database(cfg), lock = await pool.connect();
+    try {
+      const start = z.object({ attempt: z.string() }).parse(await ok('identity', '/v1/auth/start', 'POST', { provider: 'A', subject: 'TEST-PERSON-0002' }));
+      await lock.query('BEGIN');
+      await lock.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))', [pseudonym('TEST-PERSON-0002', required(cfg.dedupKey))]);
+      const finishing = call('identity', '/v1/auth/finish', 'POST', start);
+      let waiting = false;
+      const deadline = Date.now() + 2000;
+      while (!waiting && Date.now() < deadline) {
+        const activity = await pool.query<{ waiting: boolean }>("SELECT EXISTS(SELECT 1 FROM pg_stat_activity WHERE datname=current_database() AND wait_event='advisory') AS waiting");
+        waiting = required(activity.rows[0]).waiting;
+        if (!waiting) await setTimeout(10);
+      }
+      expect(waiting).toBe(true);
+      await pool.query('UPDATE attempts SET expires_at=clock_timestamp() WHERE id=$1', [start.attempt]);
+      await lock.query('COMMIT');
+      const result = await finishing;
+      expect(result.status).toBe(410);
+      expect(result.value).toEqual({ error: 'IDENTITY_RETURN_EXPIRED' });
+    } finally { await lock.query('ROLLBACK'); lock.release(); await pool.end(); }
+  });
+
   it('enforces proof intake, final vote, recovery, signed finality and threshold tally', async () => {
     const author = await login('TEST-PERSON-0002'), moderator = await login('TEST-PERSON-0012');
     const unverified = await login('TEST-PERSON-0010');
@@ -97,6 +142,9 @@ describe('real service boundaries', () => {
     }
     expect((await call('ballot', `/v1/elections/${id}/result`)).status).toBe(409);
     await setTimeout(Math.max(0, closesAt.getTime() - Date.now() + 100));
+    const expiredCredential = await call('identity', `/v1/credentials/${id}`, 'POST', {}, author.token);
+    expect(expiredCredential.status).toBe(403);
+    expect(expiredCredential.value).toEqual({ error: 'NO_ACTIVE_CREDENTIAL' });
     await ok('management', `/v1/polls/${poll.id}/close`, 'POST', {}, moderator.token);
     const config = await readConfig('ballot');
     const final = FinalSet.parse(await ok('ballot', `/internal/final/${id}`, 'POST', {}, config.serviceToken));

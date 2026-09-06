@@ -4,6 +4,7 @@ import { Categories, Poll, policyText } from '../../../packages/domain/src/index
 import type { PollType } from '../../../packages/domain/src/index.ts';
 import { request } from './api.ts';
 import { PollPage, stateNames } from './PollPage.tsx';
+import { Identity } from './Identity.tsx';
 import { DraftEditor, MyPolls, ReviewQueue } from './Workspace.tsx';
 
 export function App() {
@@ -52,23 +53,3 @@ export function App() {
 }
 
 export type Auth = { token: string; role: string; expiresAt: string };
-export function Identity({ onSignedIn }: { onSignedIn: (auth: Auth) => void }) {
-  const [persons, setPersons] = useState<string[]>([]), [subject, setSubject] = useState<string | null>(null);
-  const [provider, setProvider] = useState('A'), [busy, setBusy] = useState(false), [error, setError] = useState<string | null>(null);
-  useEffect(() => { request('identity', '/v1/providers').then(value => setPersons(z.object({ syntheticPersons: z.array(z.string()) }).parse(value).syntheticPersons)).catch(() => setError('Сервіс допуску недоступний.')); }, []);
-  async function confirm() {
-    if (subject === null) return;
-    setBusy(true); setError(null);
-    try {
-      const start = z.object({ attempt: z.string() }).parse(await request('identity', '/v1/auth/start', 'POST', { provider, subject }));
-      const auth = z.object({ token: z.string(), role: z.string(), expiresAt: z.string() }).parse(await request('identity', '/v1/auth/finish', 'POST', { attempt: start.attempt }));
-      onSignedIn(auth);
-    } catch (e) { setError(e instanceof Error ? e.message : 'Не вдалося підтвердити особу.'); } finally { setBusy(false); }
-  }
-  return <section className="identity-panel"><p className="eyebrow">ДОПУСК ДО УЧАСТІ</p><h1>Підтвердьте тестову особу</h1><p className="lead">Цей режим працює лише із заздалегідь визначеними синтетичними особами. Не вводьте справжній РНОКПП чи документи.</p>
-    <fieldset><legend>Провайдер</legend><div className="inline-options">{['A', 'B'].map(id => <label key={id}><input type="radio" name="provider" checked={provider === id} onChange={() => setProvider(id)} />Mock {id}</label>)}</div></fieldset>
-    <fieldset><legend>Синтетична особа</legend><div className="person-grid">{persons.map(p => <label key={p}><input type="radio" name="person" checked={subject === p} onChange={() => setSubject(p)} />{p}</label>)}</div></fieldset>
-    <div className="notice"><strong>Вибір не захищений від примусу.</strong> Передавання credential, демонстрація екрана та шкідливий пристрій можуть порушити приватність.</div>
-    {error && <p className="notice error" role="alert">{error}</p>}<button className="primary" disabled={subject === null || busy} onClick={() => void confirm()}>{busy ? 'Підтвердження…' : 'Підтвердити тестову особу'}</button>
-    <p className="muted">Дія.Підпис, BankID НБУ та КЕП очікують контрактів інтеграції й у цій версії недоступні.</p></section>;
-}

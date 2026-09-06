@@ -9,7 +9,9 @@ export async function providerApp(config: ConfigType) {
   const app = await application(config);
   const State = z.strictObject({ available: z.boolean(), delayMs: z.number().int().min(0).max(3000), conflictingAttributes: z.boolean() });
   let state = State.parse({ available: true, delayMs: 0, conflictingAttributes: false });
+  let pending = 0;
   app.get('/status', () => ({ provider, available: state.available, synthetic: true, upstream: 'independent-local-mock-' + provider }));
+  app.get('/control', async request => { authorize(request.headers.authorization, config.serviceToken); return { ...state, pending }; });
   app.post('/control', async request => {
     authorize(request.headers.authorization, config.serviceToken);
     state = State.parse(request.body);
@@ -19,12 +21,15 @@ export async function providerApp(config: ConfigType) {
     authorize(request.headers.authorization, config.serviceToken);
     const input = z.strictObject({ subject: z.string().regex(/^TEST-PERSON-\d{4}$/), challenge: z.string().min(32) }).parse(request.body);
     if (!state.available) throw new Failure('PROVIDER_UNAVAILABLE', 503);
-    if (state.delayMs) await new Promise(resolve => setTimeout(resolve, state.delayMs));
+    pending++;
+    try { if (state.delayMs) await new Promise(resolve => setTimeout(resolve, state.delayMs)); }
+    finally { pending--; }
     const person = syntheticPersons.find(p => p.subject === input.subject);
     if (!person) throw new Failure('UNKNOWN_SYNTHETIC_PERSON', 400);
     const attributes = state.conflictingAttributes ? { ...person.attributes, citizenship: 'DE' } : person.attributes;
+    const issuedAt = Date.now();
     const attestation = Attestation.parse({ provider, subject: input.subject, challenge: input.challenge, attributes,
-      issuedAt: new Date().toISOString(), expiresAt: new Date(Date.now() + 120000).toISOString() });
+      issuedAt: new Date(issuedAt).toISOString(), expiresAt: new Date(issuedAt + 120000).toISOString() });
     return envelope(attestation, required(config.signingKey));
   });
   return app;

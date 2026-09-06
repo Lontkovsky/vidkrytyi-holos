@@ -20,8 +20,14 @@ Execute each stage with `await suite.step(name)` in this order:
 8. `tallyStart` after the fixed `suite.closesAt` time
 9. `publish` after the requested tally completes
 10. `exports`
+11. `providerContracts`
+12. `providerRetry`
+13. `providerSwitch`
+14. `providerBothUnavailable`
 
 Asynchronous review/tally start and completion are separate stages. Wait for real completion; do not change the fixed deadline or insert fabricated outcomes. Every browser action uses the supplied tab.playwright API. Public UI state is inspected after actions; no browser secrets or hidden application state are read. The native cryptographic tract is exercised, not mocked.
+
+The four provider stages additionally use the private local coordinator to set A/B mock availability and count active attempts for the one fixed synthetic fixture. They do not authenticate through that control channel: login, error, retry, switching, capability disclosure and result navigation all execute through the UI. The attempt-count check returns only a count and proves that repeated failed deliveries did not create new attempts. Both mock processes are reset at setup and completion/interruption. Run live service tests before this suite, not concurrently, because they deliberately control the same synthetic providers.
 
 The coordinator returns a nonzero exit code if a stage fails, sources change during the run, the run is interrupted, or it remains incomplete for 15 minutes. Safe outcomes are written to `artifacts/e2e/report.json` with run ID and initial/final source digests. The report starts as incomplete; an older successful report cannot survive a new failed attempt. A successful CLI/API test is not browser evidence. The regular GitHub workflow does not claim to run this suite because it does not have the existing in-app Browser session.
 

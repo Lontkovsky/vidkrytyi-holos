@@ -1,14 +1,19 @@
 import { z } from 'zod';
-import { Attributes, Attestation, Policy, Session, eligible } from '../../../packages/domain/src/index.ts';
+import { Attributes, Policy, Session, eligible } from '../../../packages/domain/src/index.ts';
+import { MockProviderId, SyntheticSubject, ProviderCatalogue } from '../../../packages/domain/src/providers.ts';
 import { syntheticPersons } from '../../../packages/domain/src/fixtures.ts';
-import { application, authorize, database, Failure, jsonRequest, openEnvelope, pseudonym, required, sealed, sha, token, transaction, unseal } from './common.ts';
+import { application, authorize, database, Failure, pseudonym, required, sealed, sha, token, transaction, unseal } from './common.ts';
 import type { ConfigType } from './common.ts';
+import { MockIdentityProvider, AwaitingProviderContract } from './identity-provider.ts';
 
 export async function identityApp(config: ConfigType) {
   const app = await application(config), pool = database(config);
   app.addHook('onClose', () => pool.end());
-  const Subject = z.string().regex(/^TEST-PERSON-\d{4}$/);
+  const Subject = SyntheticSubject;
   const providerTokens = required(config.providerTokens), providerKeys = required(config.providerKeys);
+  const providers = new Map(MockProviderId.options.map(provider => [provider, new MockIdentityProvider({ environment: config.environment, provider,
+    authorization: required(providerTokens[provider]), publicKey: required(providerKeys[provider]) })]));
+  const production = [new AwaitingProviderContract('diia-signature'), new AwaitingProviderContract('bankid-nbu'), new AwaitingProviderContract('qes')];
   async function session(header: string | undefined) {
     if (header === undefined || !header.startsWith('Bearer ')) throw new Failure('AUTHENTICATION_REQUIRED', 401);
     const found = await pool.query<{ person: string; role: unknown; attributes: unknown; expires_at: Date }>(
@@ -18,18 +23,11 @@ export async function identityApp(config: ConfigType) {
     return Session.parse({ person: row.person, role: row.role, verifiedOwner: Attributes.parse(row.attributes).verifiedOwner, expiresAt: row.expires_at.toISOString() });
   }
   app.get('/v1/providers', async () => {
-    const statuses = await Promise.all(['A', 'B'].map(async id => {
-      try {
-        const response = await fetch(`http://127.0.0.1:${id === 'A' ? 4312 : 4313}/status`, { signal: AbortSignal.timeout(2000) });
-        if (!response.ok) throw new Error('unavailable');
-        return z.object({ provider: z.string(), available: z.boolean(), synthetic: z.boolean(), upstream: z.string() }).parse(await response.json());
-      } catch { return { provider: id, available: false, synthetic: true, upstream: 'independent-local-mock-' + id }; }
-    }));
-    return { environment: config.environment, syntheticPersons: syntheticPersons.map(p => p.subject), providers: statuses,
-      production: ['Дія.Підпис', 'BankID НБУ', 'КЕП'].map(name => ({ name, state: 'AwaitingProviderContract' })) };
+    return ProviderCatalogue.parse({ environment: config.environment, syntheticPersons: syntheticPersons.map(p => p.subject),
+      providers: await Promise.all([...providers.values()].map(p => p.status())), production: await Promise.all(production.map(p => p.status())) });
   });
   app.post('/v1/auth/start', async request => {
-    const input = z.strictObject({ provider: z.enum(['A', 'B']), subject: Subject }).parse(request.body);
+    const input = z.strictObject({ provider: MockProviderId, subject: Subject }).parse(request.body);
     if (!syntheticPersons.some(p => p.subject === input.subject)) throw new Failure('UNKNOWN_SYNTHETIC_PERSON', 400);
     const id = token(), challenge = token();
     await pool.query('DELETE FROM attempts WHERE expires_at<now()');
@@ -48,22 +46,15 @@ export async function identityApp(config: ConfigType) {
       const identity = await session('Bearer ' + replayed);
       return { token: replayed, role: identity.role, expiresAt: identity.expiresAt, synthetic: true };
     }
-    let response: unknown;
-    try {
-      response = await jsonRequest(`http://127.0.0.1:${row.provider === 'A' ? 4312 : 4313}/attest`,
-        { subject: row.subject, challenge: row.challenge }, required(providerTokens[row.provider]));
-    } catch { throw new Failure('PROVIDER_UNAVAILABLE', 503); }
-    const attestation = Attestation.parse(openEnvelope(response, required(providerKeys[row.provider])));
-    if (attestation.provider !== row.provider || attestation.subject !== row.subject || attestation.challenge !== row.challenge
-      || Date.parse(attestation.expiresAt) <= Date.now() || Date.parse(attestation.issuedAt) > Date.now() + 5000
-      || Date.now() - Date.parse(attestation.issuedAt) > 120000) throw new Failure('ATTESTATION_REJECTED', 422);
+    const attestation = await required(providers.get(MockProviderId.parse(row.provider))).authenticate({ subject: Subject.parse(row.subject), challenge: row.challenge });
     const person = pseudonym(attestation.subject, required(config.dedupKey));
     const fixture = syntheticPersons.find(p => p.subject === attestation.subject);
     if (!fixture) throw new Failure('UNKNOWN_SYNTHETIC_PERSON', 422);
     const outcome = await transaction(pool, async client => {
       await client.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))', [person]);
-      const locked = await client.query<{ completed: boolean; session_token_sealed: string | null }>('SELECT completed,session_token_sealed FROM attempts WHERE id=$1 FOR UPDATE', [attempt]);
-      const priorAttempt = required(locked.rows[0]);
+      const locked = await client.query<{ completed: boolean; session_token_sealed: string | null; active: boolean }>('SELECT completed,session_token_sealed,expires_at>clock_timestamp() AS active FROM attempts WHERE id=$1 FOR UPDATE', [attempt]);
+      const priorAttempt = locked.rows[0];
+      if (priorAttempt === undefined || !priorAttempt.active) throw new Failure('IDENTITY_RETURN_EXPIRED', 410);
       if (priorAttempt.completed && priorAttempt.session_token_sealed !== null) return { token: unseal(priorAttempt.session_token_sealed, required(config.sealingKey)), conflict: false };
       const prior = await client.query<{ attributes: unknown; revoked: boolean }>('SELECT attributes,revoked FROM persons WHERE person=$1', [person]);
       const current = prior.rows[0];
