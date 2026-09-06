@@ -265,12 +265,16 @@
       "evidenceState": "AutomatedTested",
       "implementationState": "Partial",
       "verification": [
-        "tests/services.test.ts"
+        "tests/services.test.ts",
+        "tests/providers.test.ts",
+        "tests/e2e/inapp.mjs"
       ],
       "actualEvidence": [
-        "artifacts/services/tests.json"
+        "artifacts/services/tests.json",
+        "artifacts/e2e/report.json",
+        "docs/IDENTITY_PROVIDERS.md"
       ],
-      "remainingAcceptanceCriteria": "Production adapters AwaitingProviderContract; outage UI recovery paths pending"
+      "remainingAcceptanceCriteria": "Production adapters AwaitingProviderContract; real upstream independence and fresh-attribute contracts require external access. Full revocation remains in V009."
     },
     {
       "id": "A11",

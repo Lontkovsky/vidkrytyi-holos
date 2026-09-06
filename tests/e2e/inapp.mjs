@@ -22,6 +22,13 @@ export async function createRunner(tab) {
   async function check(role, name) { await p.getByRole(role, { name, exact: true }).check(); await state(); }
   async function visible(role, name) { await until(async () => await p.getByRole(role, { name, exact: true }).count() === 1 && await p.getByRole(role, { name, exact: true }).isVisible(), name); }
   async function fill(label, value) { await p.getByRole('textbox', { name: label, exact: true }).fill(value); await state(); }
+  async function fixture(path, body) {
+    const response = await fetch(run.endpoint + path, { method: 'POST', headers: { authorization: 'Bearer ' + run.token }, body: JSON.stringify(body) });
+    if (!response.ok) throw new Error('E2E_FIXTURE_CONTROL_FAILED');
+    return response.json();
+  }
+  async function control(provider, available) { await fixture('/provider-control', { provider, available }); }
+  async function unavailable() { await p.getByRole('alert').filter({ hasText: 'Провайдер недоступний.' }).waitFor({ state: 'visible' }); }
   async function exported(button, prefix) {
     const before = new Set(await readdir(run.downloadDirectory));
     await click('button', button);
@@ -37,6 +44,7 @@ export async function createRunner(tab) {
   async function signOut() {
     if (await p.getByRole('button', { name: 'Вийти', exact: true }).count() === 1) await click('button', 'Вийти');
     await visible('link', 'Підтвердити участь');
+    await click('link', 'Голосування');
     await p.waitForURL('http://localhost:5173/#/', { timeoutMs: 30000 });
     await until(async () => await p.locator('h1').innerText() === 'Голосування', 'Signed-out catalog');
   }
@@ -147,6 +155,66 @@ export async function createRunner(tab) {
       await p.getByRole('status').filter({ hasText: 'Бюлетень включено. Підпис квитанції перевірено.' }).waitFor({ state: 'visible' });
       if (!(await p.getByText('Добровільна участь із самовідбором.', { exact: false }).count() >= 1)) throw new Error('SELF_SELECTION_WARNING_MISSING');
       assertions.push('New JSON and audit files downloaded by the browser match the displayed result and fixed deadline', 'Native archive extracted unchanged from the downloaded audit for offline verification', 'Tracker still included after publication', 'Self-selection and representativeness warning stays visible');
+    },
+    async providerContracts(assertions) {
+      await signOut(); await click('link', 'Підтвердити участь');
+      await p.getByText('Mock A: доступний', { exact: true }).waitFor({ state: 'visible' });
+      await p.getByText('Mock B: доступний', { exact: true }).waitFor({ state: 'visible' });
+      for (const provider of ['Дія.Підпис', 'BankID НБУ', 'КЕП']) {
+        const summary = p.getByText(provider + ' — Очікує контракту інтеграції (AwaitingProviderContract)', { exact: true });
+        await summary.press('Enter'); await state();
+        if (await p.locator('details[open]').count() !== 1) throw new Error('PROVIDER_CAPABILITY_KEYBOARD_DISCLOSURE_FAILED');
+        if (!(await p.locator('details[open]').innerText()).includes('Необхідні доступи')) throw new Error('PROVIDER_PREREQUISITES_MISSING');
+        await summary.press('Enter'); await state();
+        if (await p.getByRole('radio', { name: provider, exact: true }).count() !== 0) throw new Error('UNINTEGRATED_PROVIDER_SELECTABLE');
+      }
+      await p.getByRole('radio', { name: 'Mock B', exact: true }).press('Space'); await state();
+      if (await p.getByRole('radio', { name: 'Mock B', exact: true }).and(p.locator(':checked')).count() !== 1) throw new Error('KEYBOARD_PROVIDER_SELECTION_FAILED');
+      assertions.push('Both mock availability states are visible', 'Three production boundaries are explicitly awaiting contracts and cannot be selected', 'Capability disclosures and provider selection work with the keyboard');
+    },
+    async providerRetry(assertions) {
+      await check('radio', 'Mock A'); await check('radio', 'TEST-PERSON-0002');
+      await control('A', false);
+      await click('button', 'Підтвердити тестову особу'); await unavailable();
+      await visible('button', 'Повторити цю спробу (1/3)');
+      const first = await fixture('/attempt-count', {});
+      if (first.count === '0') throw new Error('PENDING_IDENTITY_ATTEMPT_NOT_RECORDED');
+      await click('button', 'Повторити цю спробу (1/3)'); await unavailable();
+      await visible('button', 'Повторити цю спробу (2/3)');
+      if ((await fixture('/attempt-count', {})).count !== first.count) throw new Error('RETRY_CREATED_ANOTHER_ATTEMPT');
+      await control('A', true); await click('button', 'Повторити цю спробу (2/3)'); await visible('button', 'Вийти');
+      assertions.push('Outage after status observation shows an explicit error', 'Failed return is retried with the same backend attempt', 'Restored provider completes that attempt without an automatic switch');
+    },
+    async providerSwitch(assertions) {
+      await signOut(); await click('link', 'Підтвердити участь');
+      await p.getByText('Mock A: доступний', { exact: true }).waitFor({ state: 'visible' });
+      await check('radio', 'Mock A'); await check('radio', 'TEST-PERSON-0002'); await control('A', false);
+      await click('button', 'Підтвердити тестову особу'); await unavailable();
+      const first = await fixture('/attempt-count', {});
+      if (first.count === '0') throw new Error('PENDING_IDENTITY_ATTEMPT_NOT_RECORDED');
+      await click('button', 'Повторити цю спробу (1/3)'); await unavailable();
+      await click('button', 'Повторити цю спробу (2/3)'); await unavailable();
+      await p.getByRole('status').filter({ hasText: 'Ліміт трьох спроб вичерпано.' }).waitFor({ state: 'visible' });
+      if (await p.getByRole('button', { name: 'Повторити цю спробу (3/3)', exact: true }).isEnabled()) throw new Error('RETRY_LIMIT_NOT_ENFORCED');
+      if ((await fixture('/attempt-count', {})).count !== first.count) throw new Error('LIMITED_RETRIES_CREATED_MORE_ATTEMPTS');
+      await check('radio', 'Mock B'); await click('button', 'Підтвердити тестову особу'); await visible('button', 'Вийти');
+      await control('A', true);
+      assertions.push('Exactly three manual deliveries exhaust the retry limit without new attempts', 'An explicit switch to available B confirms the same synthetic person');
+    },
+    async providerBothUnavailable(assertions) {
+      await signOut(); await control('A', false); await control('B', false); await click('link', 'Підтвердити участь');
+      await p.getByRole('status').filter({ hasText: 'Обидва тестові провайдери недоступні.' }).waitFor({ state: 'visible' });
+      await check('radio', 'TEST-PERSON-0002');
+      for (const provider of ['Mock A', 'Mock B']) {
+        await check('radio', provider);
+        if (await p.getByRole('button', { name: 'Підтвердити тестову особу', exact: true }).isEnabled()) throw new Error('UNAVAILABLE_PROVIDER_ADMISSION_ENABLED');
+      }
+      if (await p.getByRole('textbox').count() !== 0) throw new Error('WEAKER_FREEFORM_IDENTITY_VISIBLE');
+      await control('A', true); await control('B', true); await click('button', 'Оновити стан провайдерів');
+      await p.getByText('Mock B: доступний', { exact: true }).waitFor({ state: 'visible' });
+      await click('button', 'Підтвердити тестову особу'); await visible('button', 'Вийти'); await openPoll();
+      await visible('heading', 'Результат серед 3 учасників цього голосування');
+      assertions.push('Both outages visibly stop admission without weaker identity input', 'Explicit status refresh restores available participation', 'Published poll and fixed result remain available through the outage');
     },
   };
   return {

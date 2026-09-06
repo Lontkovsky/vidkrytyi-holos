@@ -13,7 +13,7 @@ Machine-readable source: [attack-coverage.json](attack-coverage.json). Defense o
 | A07 | Дублікати та захоплення каталогу | PartiallyMitigated | NotTested | Mass publishing and quota bypass tests pending |
 | A08 | Цензура та суперечливі історії | PartiallyMitigated | NotTested | Working observer, lawful tombstones and external read-only restoration not implemented |
 | A09 | Підміна збірки та непрозоре управління | PartiallyMitigated | NotTested | Two-clean-build comparison, independent client monitor and release locking pending |
-| A10 | Недоступність провайдера ідентифікації | PartiallyMitigated | AutomatedTested | Production adapters AwaitingProviderContract; outage UI recovery paths pending |
+| A10 | Недоступність провайдера ідентифікації | PartiallyMitigated | AutomatedTested | Synthetic A/B, expiry races and bounded UI recovery tested; production adapters and real upstream independence await contracts |
 | A11 | Купівля голосів і примус | KnownLimitation | NotTested | Belenios integration provides neither receipt-freeness nor coercion resistance; explicit limitation experiments pending |
 
 Each record identifies trust boundaries, implementation, issues, tests and remaining acceptance criteria. KnownLimitation does not waive implementable controls. The current tests do not yet constitute the full A01–A11 adversarial suite.

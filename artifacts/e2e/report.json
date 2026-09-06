@@ -1,11 +1,11 @@
 {
-  "runId": "2dc9e08822",
-  "sourceHash": "4b662e890996011082b51c826baed1b5b7b7679960054172050734992394edb3",
-  "finalSourceHash": "4b662e890996011082b51c826baed1b5b7b7679960054172050734992394edb3",
+  "runId": "aae0e3836f",
+  "sourceHash": "4c0cc490512496851c8d18094f6be3de021197294a1bf076451dc6e4c88f3f4f",
+  "finalSourceHash": "4c0cc490512496851c8d18094f6be3de021197294a1bf076451dc6e4c88f3f4f",
   "browser": "Existing in-app Browser; supplied tab.playwright binding",
   "standaloneBrowserStarted": false,
-  "startedAt": "2026-09-06T17:40:47.038Z",
-  "finishedAt": "2026-09-06T17:45:47.979Z",
+  "startedAt": "2026-09-06T18:17:59.483Z",
+  "finishedAt": "2026-09-06T18:23:46.911Z",
   "passed": true,
   "results": [
     {
@@ -88,6 +88,41 @@
         "Native archive extracted unchanged from the downloaded audit for offline verification",
         "Tracker still included after publication",
         "Self-selection and representativeness warning stays visible"
+      ]
+    },
+    {
+      "step": "providerContracts",
+      "status": "Passed",
+      "assertions": [
+        "Both mock availability states are visible",
+        "Three production boundaries are explicitly awaiting contracts and cannot be selected",
+        "Capability disclosures and provider selection work with the keyboard"
+      ]
+    },
+    {
+      "step": "providerRetry",
+      "status": "Passed",
+      "assertions": [
+        "Outage after status observation shows an explicit error",
+        "Failed return is retried with the same backend attempt",
+        "Restored provider completes that attempt without an automatic switch"
+      ]
+    },
+    {
+      "step": "providerSwitch",
+      "status": "Passed",
+      "assertions": [
+        "Exactly three manual deliveries exhaust the retry limit without new attempts",
+        "An explicit switch to available B confirms the same synthetic person"
+      ]
+    },
+    {
+      "step": "providerBothUnavailable",
+      "status": "Passed",
+      "assertions": [
+        "Both outages visibly stop admission without weaker identity input",
+        "Explicit status refresh restores available participation",
+        "Published poll and fixed result remain available through the outage"
       ]
     }
   ]
