@@ -22,7 +22,8 @@
         "https://github.com/Lontkovsky/vidkrytyi-holos/issues/33"
       ],
       "prs": [
-        "https://github.com/Lontkovsky/vidkrytyi-holos/pull/42"
+        "https://github.com/Lontkovsky/vidkrytyi-holos/pull/42",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/pull/49"
       ],
       "defenseOutcome": "PartiallyMitigated",
       "evidenceState": "AutomatedTested",
@@ -53,7 +54,8 @@
         "https://github.com/Lontkovsky/vidkrytyi-holos/issues/31"
       ],
       "prs": [
-        "https://github.com/Lontkovsky/vidkrytyi-holos/pull/42"
+        "https://github.com/Lontkovsky/vidkrytyi-holos/pull/42",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/pull/49"
       ],
       "defenseOutcome": "PartiallyMitigated",
       "evidenceState": "AutomatedTested",
@@ -176,7 +178,9 @@
         "https://github.com/Lontkovsky/vidkrytyi-holos/issues/22",
         "https://github.com/Lontkovsky/vidkrytyi-holos/issues/29"
       ],
-      "prs": [],
+      "prs": [
+        "https://github.com/Lontkovsky/vidkrytyi-holos/pull/49"
+      ],
       "defenseOutcome": "PartiallyMitigated",
       "evidenceState": "AutomatedTested",
       "implementationState": "Partial",
