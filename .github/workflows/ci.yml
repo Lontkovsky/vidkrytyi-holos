@@ -21,6 +21,21 @@ jobs:
         run: python3 scripts/scan-public.py
       - name: Build pinned reference core
         run: docker build --platform linux/amd64 -f infra/crypto.Dockerfile -t openvote-crypto:3.3.0 .
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: 24.20.0
+      - name: Install locked workspace
+        run: npm install -g pnpm@10.33.0 && pnpm install --frozen-lockfile
+      - name: Bootstrap isolated synthetic services
+        run: pnpm bootstrap
+      - name: Start local application
+        run: |
+          node scripts/dev.mjs > .runtime/dev.log 2>&1 &
+          for port in 4301 4302 4303 4312 4313; do
+            curl --fail --silent --retry 10 --retry-connrefused --retry-delay 1 "http://127.0.0.1:$port/health" > /dev/null
+          done
+      - name: Types, build and real service contracts
+        run: pnpm types && pnpm build && pnpm smoke && pnpm test --reporter=default --reporter=json --outputFile=artifacts/services/tests.json
       - name: Real encrypted voting and adversarial verification
         run: sh scripts/test-reference.sh
       - name: Verify public artifact without network or private storage

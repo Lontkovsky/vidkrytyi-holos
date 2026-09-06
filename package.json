@@ -1,0 +1,38 @@
+{
+  "name": "vidkrytyi-holos",
+  "version": "0.1.0-dev.1",
+  "private": true,
+  "type": "module",
+  "license": "AGPL-3.0-only",
+  "packageManager": "pnpm@10.33.0",
+  "engines": { "node": ">=24.20.0 <25" },
+  "scripts": {
+    "bootstrap": "node scripts/bootstrap.mjs",
+    "dev": "node scripts/dev.mjs",
+    "seed": "node scripts/seed.ts",
+    "test": "vitest run",
+    "smoke": "node scripts/smoke.ts",
+    "test:crypto": "sh scripts/test-reference.sh",
+    "verify": "sh scripts/verify.sh",
+    "lint": "python3 scripts/scan-public.py && git diff --check",
+    "types": "tsc --noEmit",
+    "build": "pnpm --filter @openvote/web build",
+    "migrate": "node scripts/migrate.ts"
+  },
+  "dependencies": {
+    "@fastify/cors": "11.3.0",
+    "@fastify/helmet": "13.1.1",
+    "fastify": "5.12.3",
+    "pg": "8.23.0",
+    "zod": "4.5.4"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.1",
+    "@types/pg": "8.20.0",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.7",
+    "fast-check": "4.9.0",
+    "typescript": "7.0.2",
+    "vitest": "5.0.0"
+  }
+}

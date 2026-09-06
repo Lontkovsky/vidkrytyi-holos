@@ -2,7 +2,7 @@
   "core": "Belenios 3.3.0",
   "source": "337887bd1862c7cd057080b530fd80941bfc3c69",
   "scenario": "synthetic reference CLI tract; browser tract not covered by this command",
-  "seconds": 26.19,
+  "seconds": 31.262,
   "checks": [
     {
       "name": "Reference 2-of-3 plus mandatory trustee ceremony",

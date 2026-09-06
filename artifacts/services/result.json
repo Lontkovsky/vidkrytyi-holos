@@ -1,0 +1,22 @@
+{
+  "apiVersion": "v1",
+  "question": "Чи підтримуєте відкриту перевірку синтетичного інтеграційного сценарію?",
+  "version": 1,
+  "pollId": "cmiR3xXybMPQCj",
+  "policy": {
+    "id": "verified-rnokpp-owner",
+    "version": 1
+  },
+  "acceptedVotes": 3,
+  "counts": [
+    1,
+    1,
+    1
+  ],
+  "opensAt": "2026-09-06T17:00:51.233Z",
+  "closesAt": "2026-09-06T17:01:27.233Z",
+  "state": "Published",
+  "verification": "ReferenceVerified",
+  "selfSelected": true,
+  "representativenessWarning": "Добровільна участь із самовідбором. Результат описує учасників цього голосування й не є автоматично репрезентативною думкою населення."
+}

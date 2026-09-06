@@ -8,4 +8,6 @@ Copyright © Inria and other upstream contributors, as recorded in each source f
 
 The build environment `glondu/beleniosbase:20260425-1` is maintained by the upstream author and pinned by SHA-256 digest in `infra/crypto.Dockerfile`. It remains a supply-chain trust input, not an independently audited artifact. Release reproducibility must explicitly record this dependency.
 
-Application package licenses and SBOM will be generated from the locked dependency graph before release. They are not yet verified at bootstrap.
+The upstream browser distribution includes `vendor/belenios/vendor/libsodium/libsodium.wasm` and its ISC license. Bootstrap copies this license next to the original wrapped JavaScript and the Belenios COPYING file; the WebAssembly binary is unchanged from the pinned upstream source.
+
+The installed application/build dependency license inventory is in `artifacts/dependencies/licenses.json`: MIT, Apache-2.0, BSD-3-Clause, ISC and MPL-2.0. MPL-2.0 applies to the unmodified Lightning CSS build tool, whose source is linked in that inventory. Preserve package license notices in distributions. A release SBOM and complete executable provenance are still pending. This inventory is not an external legal opinion.
