@@ -106,6 +106,7 @@ export async function createRunner(tab) {
     async reviewStart(assertions) {
       await signOut(); await click('link', 'Підтвердити участь'); await signIn('TEST-PERSON-0012', 'A');
       await click('link', 'Модерація');
+      await visible('link', title);
       const form = p.locator('form').filter({ has: p.getByRole('link', { name: title, exact: true }) });
       if (await form.count() !== 1) throw new Error('REVIEW_CARD_NOT_UNIQUE');
       for (const label of ['Одна пропозиція без навідного формулювання', 'Без подвійного заперечення', 'Терміни зрозумілі', 'Умови й істотні наслідки явні', 'Факти відокремлені від оцінок']) { await form.getByLabel(label, { exact: true }).check(); await state(); }
@@ -178,6 +179,8 @@ export async function createRunner(tab) {
       await p.getByText('Суперечливі історії виявляються після обміну свідченнями.', { exact: false }).waitFor({ state: 'visible' });
       await openPoll();
       assertions.push('Trust center discloses the independent observer and the split-view comparison condition');
+      await p.getByText('За одностайного результату відомий факт участі розкриває відповідь учасника.', { exact: false }).waitFor({ state: 'visible' });
+      assertions.push('Participation policy explains that the minimum group threshold does not hide an unanimous choice');
       assertions.push('Anonymous public results and real JSON, CSV, SVG and audit downloads share the exact contract', 'CSV independently round-trips all fields and types', 'Keyboard opens and closes the rendered share card', 'Share card retains exact question, N and all answer counts', 'Native archive extracted unchanged from the downloaded audit for offline verification', 'Tracker still included after publication', 'Self-selection and representativeness warning stays visible');
     },
     async providerContracts(assertions) {

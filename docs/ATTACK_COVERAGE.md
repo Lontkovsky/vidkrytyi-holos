@@ -6,7 +6,7 @@ Machine-readable source: [attack-coverage.json](attack-coverage.json). Defense o
 |---|---|---|---|---|
 | A01 | Повторні голоси однієї людини | PartiallyMitigated | AutomatedTested | Stale writable backup guard not yet implemented |
 | A02 | Фіктивні голоси від власника або issuer | PartiallyMitigated | AutomatedTested | Compromised credential authority can admit fictitious persons; complete role/collusion tests pending |
-| A03 | Встановлення вибору конкретної людини | PartiallyMitigated | AutomatedTested | Issuer links person to ciphertext; sufficient key collusion can decrypt; subset attack tests pending |
+| A03 | Встановлення вибору конкретної людини | PartiallyMitigated | AutomatedTested | Native subset/individual/early/small-group guards tested; first signed fork needs external acknowledgement evidence; issuer linkage, sufficient key collusion and unanimity remain limitations |
 | A04 | Компрометація БД, логів і backups | PartiallyMitigated | NotTested | Full synthetic leak/reconstruction experiment and backup controls pending |
 | A05 | Добровільне голосування видається за думку населення | PartiallyMitigated | AutomatedTested | UI/API/JSON/CSV/SVG consistency tested; external copies, screenshots and spreadsheet reinterpretation cannot be controlled |
 | A06 | Маніпуляція формулюванням і контекстом | PartiallyMitigated | AutomatedTested | Malicious language suite and source/content removal policy tests pending |

@@ -70,15 +70,16 @@
       "title": "Встановлення вибору конкретної людини",
       "attackerCapabilities": "Operator correlates metadata or requests selected decryption",
       "trustBoundary": "Honest trustee clients; enough independent key holders",
-      "controls": "Client Belenios encryption; pretrusted manifest/final-set checks; fixed close and minimum group",
-      "residualRisk": "Issuer links person to ciphertext; sufficient key collusion can decrypt; subset attack tests pending",
+      "controls": "Client Belenios encryption; native trustee guard checks manifest, aggregate, final set, deadline and minimum group; original check_factor validates each share before storage; durable one-final-set binding",
+      "residualRisk": "First self-consistent signed fork requires external acknowledgement evidence; issuer links person to ciphertext; sufficient key collusion and unanimity can reveal choices",
       "requirements": [
         "15.1",
         "15.4"
       ],
       "issues": [
         "https://github.com/Lontkovsky/vidkrytyi-holos/issues/25",
-        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/26"
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/31",
+        "https://github.com/Lontkovsky/vidkrytyi-holos/issues/33"
       ],
       "prs": [
         "https://github.com/Lontkovsky/vidkrytyi-holos/pull/42"
@@ -87,12 +88,16 @@
       "evidenceState": "AutomatedTested",
       "implementationState": "Partial",
       "verification": [
-        "tests/services.test.ts"
+        "tests/services.test.ts",
+        "tests/trustees.test.ts",
+        "tools/test_reference.py"
       ],
       "actualEvidence": [
-        "artifacts/services/tests.json"
+        "artifacts/services/tests.json",
+        "artifacts/reference/reference-report.json",
+        "docs/TRUSTEE_VERIFICATION.md"
       ],
-      "remainingAcceptanceCriteria": "Issuer links person to ciphertext; sufficient key collusion can decrypt; subset attack tests pending"
+      "remainingAcceptanceCriteria": "Full current service/Browser verification and PR CI pending; independently retained acknowledgement journal and first-fork completeness remain open; key-collusion and identity-linkage experiments remain separate work"
     },
     {
       "id": "A04",
@@ -224,7 +229,7 @@
       "implementationState": "Partial",
       "verification": ["tests/observer.test.ts", "scripts/observer.ts", "scripts/audit-export.ts"],
       "actualEvidence": ["artifacts/services/tests.json", "artifacts/observer/observation.json", "artifacts/observer/audit.json", "docs/OBSERVER.md"],
-      "remainingAcceptanceCriteria": "Observer local tests passed; PR/CI pending. Lawful tombstones, coordinated withdrawal and external read-only restoration remain open."
+      "remainingAcceptanceCriteria": "Observer PR #47 merged after passing local tests and CI. Lawful tombstones, coordinated withdrawal and external read-only restoration remain open."
     },
     {
       "id": "A09",

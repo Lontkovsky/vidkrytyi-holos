@@ -1,12 +1,12 @@
 {
-  "runId": "3e69dc6d08",
-  "sourceHash": "60f66bccb46b72e18bc239f0eeae041e714e15a66256b74c94a67086d734b03a",
-  "finalSourceHash": "60f66bccb46b72e18bc239f0eeae041e714e15a66256b74c94a67086d734b03a",
+  "runId": "d95f96c3f6",
+  "sourceHash": "3fbfbfb36c35f857478434a94fe4a5750879cdeac78827e80606fb9c29d8b015",
+  "finalSourceHash": "3fbfbfb36c35f857478434a94fe4a5750879cdeac78827e80606fb9c29d8b015",
   "browser": "Existing in-app Browser; supplied tab.playwright binding",
   "standaloneBrowserStarted": false,
-  "startedAt": "2026-09-06T19:42:16.283Z",
-  "finishedAt": "2026-09-06T19:49:32.831Z",
-  "passed": true,
+  "startedAt": "2026-09-06T21:30:46.989Z",
+  "finishedAt": "2026-09-06T21:36:34.142Z",
+  "passed": false,
   "results": [
     {
       "step": "create",
@@ -82,52 +82,11 @@
     },
     {
       "step": "exports",
-      "status": "Passed",
+      "status": "Failed",
       "assertions": [
-        "Trust center discloses the independent observer and the split-view comparison condition",
-        "Anonymous public results and real JSON, CSV, SVG and audit downloads share the exact contract",
-        "CSV independently round-trips all fields and types",
-        "Keyboard opens and closes the rendered share card",
-        "Share card retains exact question, N and all answer counts",
-        "Native archive extracted unchanged from the downloaded audit for offline verification",
-        "Tracker still included after publication",
-        "Self-selection and representativeness warning stays visible"
-      ]
-    },
-    {
-      "step": "providerContracts",
-      "status": "Passed",
-      "assertions": [
-        "Both mock availability states are visible",
-        "Three production boundaries are explicitly awaiting contracts and cannot be selected",
-        "Capability disclosures and provider selection work with the keyboard"
-      ]
-    },
-    {
-      "step": "providerRetry",
-      "status": "Passed",
-      "assertions": [
-        "Outage after status observation shows an explicit error",
-        "Failed return is retried with the same backend attempt",
-        "Restored provider completes that attempt without an automatic switch"
-      ]
-    },
-    {
-      "step": "providerSwitch",
-      "status": "Passed",
-      "assertions": [
-        "Exactly three manual deliveries exhaust the retry limit without new attempts",
-        "An explicit switch to available B confirms the same synthetic person"
-      ]
-    },
-    {
-      "step": "providerBothUnavailable",
-      "status": "Passed",
-      "assertions": [
-        "Both outages visibly stop admission without weaker identity input",
-        "Explicit status refresh restores available participation",
-        "Published poll and fixed result remain available through the outage"
-      ]
+        "Stage did not complete"
+      ],
+      "error": "UI_STATE_DEADLINE: New completed result- download"
     }
   ]
 }

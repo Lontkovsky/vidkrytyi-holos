@@ -85,7 +85,7 @@ export async function core(config: ConfigType, request: unknown, ceremony = fals
 }
 export async function application(config: ConfigType) {
   const app = Fastify({ logger: false, bodyLimit: 1024 * 1024, requestTimeout: 100000,
-    connectionTimeout: 10000, routerOptions: { maxParamLength: 100 }, logController: new LogController({ disableRequestLogging: true }) });
+    connectionTimeout: 100000, routerOptions: { maxParamLength: 100 }, logController: new LogController({ disableRequestLogging: true }) });
   await app.register(cors, { origin: 'http://localhost:5173', credentials: false, methods: ['GET', 'POST', 'PATCH', 'DELETE'] });
   await app.register(helmet, { referrerPolicy: { policy: 'no-referrer' } });
   app.addHook('onRequest', async (request, reply) => {

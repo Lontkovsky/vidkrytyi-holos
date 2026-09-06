@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Real cryptographic smoke/adversarial test; generated secrets stay temporary."""
 import base64
+import hashlib
 import json
 import pathlib
 import sys
@@ -52,9 +53,30 @@ invalid_ciphertext = json.loads(ballots[0]); invalid_ciphertext['answers'][0]['c
 rejected('Corrupted ciphertext', {'action': 'accept', 'archive': setup['archive'], 'ballot': json.dumps(invalid_ciphertext, separators=(',', ':'))})
 rejected('Decryption before finality', {'action': 'share', 'archive': archive, 'trustee': setup['trustees'][0]})
 closed = process({'action': 'close', 'archive': archive})['archive']
-shares = [process({'action': 'share', 'archive': closed, 'trustee': key})['share'] for key in setup['trustees'][:3]]
+shares = [process({'action': 'share', 'archive': closed, 'trustee': key})['share'] for key in setup['trustees']]
+for trustee_id, share in enumerate(shares, 1):
+    assert process({'action': 'verify-share', 'archive': closed, 'share': share}) == {
+        'verifiedBy': 'Belenios 3.3.0 check_factor', 'trusteeId': trustee_id}
+checks.append({'name': 'Every mandatory and threshold share passes native check_factor before storage', 'outcome': 'Passed', 'evidence': 'AutomatedTested'})
+partial = json.loads(shares[0].split('\n')[0])
+proof = partial['decryption_proofs'][0][0]
+proof['response'] = '1' if proof['response'] == '0' else '0'
+damaged = json.dumps(partial, separators=(',', ':'))
+damaged_share = damaged + '\n' + json.dumps({'owner': 1, 'payload': hashlib.sha256(damaged.encode()).hexdigest()}, separators=(',', ':'))
+rejected('Hash-consistent corrupted partial decryption proof', {'action': 'verify-share', 'archive': closed, 'share': damaged_share})
+owner = json.loads(shares[0].split('\n')[1]); owner['owner'] = 2
+rejected('Genuine partial decryption assigned to another trustee', {'action': 'verify-share', 'archive': closed, 'share': shares[0].split('\n')[0] + '\n' + json.dumps(owner, separators=(',', ':'))})
+owner['owner'] = 1; owner['payload'] = '0' * 64
+rejected('Partial decryption payload hash substitution', {'action': 'verify-share', 'archive': closed, 'share': shares[0].split('\n')[0] + '\n' + json.dumps(owner, separators=(',', ':'))})
+rejected('Partial decryption intake before closure', {'action': 'verify-share', 'archive': archive, 'share': shares[0]})
 rejected('Insufficient quorum', {'action': 'finalize', 'archive': closed, 'shares': shares[:2]})
-published = process({'action': 'finalize', 'archive': closed, 'shares': shares})
+rejected('Threshold trustees without mandatory trustee', {'action': 'finalize', 'archive': closed, 'shares': shares[1:]})
+rejected('Corrupt partial decryption in a complete quorum', {'action': 'finalize', 'archive': closed, 'shares': [damaged_share, *shares[1:3]]})
+for pair in [(1, 2), (1, 3), (2, 3)]:
+    assert process({'action': 'finalize', 'archive': closed, 'shares': [shares[0], shares[pair[0]], shares[pair[1]]]})['result']['result'] == [[3, 1, 1]]
+checks.append({'name': 'Each two-of-three threshold quorum plus mandatory trustee yields the same native tally', 'outcome': 'Passed', 'evidence': 'AutomatedTested'})
+published = process({'action': 'finalize', 'archive': closed, 'shares': shares[:3]})
+rejected('Partial decryption intake after publication', {'action': 'verify-share', 'archive': published['archive'], 'share': shares[0]})
 assert published['result']['result'] == [[3, 1, 1]], published['result']
 verified = process({'action': 'verify', 'archive': published['archive']})
 assert verified['ballotCount'] == 5
