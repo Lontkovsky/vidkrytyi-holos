@@ -1,0 +1,24 @@
+# Threat model and data flow
+
+Development baseline, 2026-09-06. This is an engineering model, not an independent audit.
+
+Identity providers attest a synthetic subject and verified attributes to the identity zone. A keyed internal pseudonym deduplicates the same person across accounts/providers. Eligibility is a separate versioned decision. The credential authority supplies one election-scoped Belenios credential from the frozen roster. The browser encrypts a three-option ballot using upstream code. A sessionless ballot origin verifies the Belenios proof/credential, atomically accepts one final ballot and returns an inclusion tracker. Poll management controls reviewed content and lifecycle, never plaintext counts. Separate trustees validate final archive and publication conditions, contribute shares, and the reference tool computes/proves the result. Public verifiers/observers work from allowed artifacts only.
+
+| Component / compromise | What can be learned or changed | Required control and residual assumption |
+|---|---|---|
+| Identity provider | Person, attestation attributes, return timing; false attestations | Official contracts, freshness and cross-provider equality. Development A/B are simulations. Compromised provider remains a root-of-trust risk. |
+| Identity / issuer | Deduplicated person, credential issuance and possible person→ciphertext link | Separate access/storage, no public global IDs, frozen roster and external oversight. Malicious issuer can create fictitious persons or use retained credentials; valid proofs do not establish real people. |
+| Ballot box | Encrypted ballot, election credential, network timing | No identity session, IP log, user ID or plaintext; native proof validation and unique credential constraint. Malicious owner can censor; externally retained checkpoints detect inconsistent history when compared. |
+| Poll management | Pseudonymous authors, content, public events | Explicit moderation authorization, versioned immutable official context after opening, quotas by deduplicated author. Owner with source/control can bypass RBAC; external observation remains required. |
+| Mandatory trustee and 2-of-3 threshold trustees | Own key/share and authorized aggregate | Separate local operators simulate independence. Honest clients reject subsets/early tally; sufficient malicious key holders can decrypt individual ballots. |
+| Client / delivery host | Credential and chosen answer before encryption | Pinned builds, code monitor, no active-poll silent update. Malware or malicious delivered JavaScript can exfiltrate secrets. External monitor cannot prove what every user received. |
+| Public observer | Allowed manifests, ballots, proofs, final result and signed checkpoints | Retain checkpoints externally and exchange them. Isolated observers cannot immediately detect split views. No identity DB required. |
+| DB/log/backup attacker | Depends on combinations of datasets | Property-by-property linkage tests; pseudonyms remain sensitive. Combined identity credentials and public artifacts link a person to ciphertext, and trustee coalition yields plaintext. |
+| Network observer | IP/timing/traffic shape and participation correlation | Separate origins/cookies, no logging, coarse/batched public updates. No protection against a global correlating observer is claimed. |
+| CI/dependency attacker | Executable code, release integrity, credentials | Pinned inputs, minimal CI permissions, fork isolation, scanning and independently obtained checksums. Reproducibility is not source trust. |
+
+Other executable attacks to verify: race conditions and byte-identical delivery, cross-poll/environment replay, wrong/expired/revoked credential, account recovery creating rights, insufficient quorum, stale restore, source/content mismatch, XSS/CSRF/SSRF/injection/IDOR, authorization escalation, resource exhaustion, author catalog capture and provider failure. A01–A11 track mechanisms separately from evidence.
+
+Small-group thresholds apply **before decryption**, not just UI rendering. Unanimity can reveal choices even above the threshold. All participants are self-selected; verification does not establish representativeness. Coordinated lawful participation is not fraudulent voting. Credential transfer, observed screens, randomness disclosure and compromised devices remain coercion risks; no receipt-freeness is claimed.
+
+Revocation, rotation and incidents must be defined before opening. No hidden deadline extension, fallback master trustee key, reset identity or writable mirror is allowed. Content removal must not turn illegal/personal material into an immutable archive. Retain minimal safe tombstones separately from editable content.

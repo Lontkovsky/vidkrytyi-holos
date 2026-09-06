@@ -1,0 +1,1144 @@
+{
+  "repository": "Lontkovsky/vidkrytyi-holos",
+  "owner": "Lontkovsky",
+  "projectNumber": 5,
+  "projectId": "PVT_kwHOAWUZ0c4BioUK",
+  "board": "https://github.com/users/Lontkovsky/projects/5",
+  "statusAuthority": "GitHub Issues and Projects; this file is the idempotent creation and linkage manifest, not a second execution status store.",
+  "items": [
+    {
+      "id": "E00",
+      "epic": "E00",
+      "title": "Repository, governance, CI and local environment",
+      "goal": "Public development is reviewable and can be reproduced.",
+      "scope": "Repository, governance, CI and local environment",
+      "outOfScope": "Unrelated features and claims beyond available evidence.",
+      "dependencies": [],
+      "acceptance": [
+        "Linked vertical issues satisfy their acceptance criteria.",
+        "Traceability points to actual PRs and test evidence."
+      ],
+      "verification": "Run each linked issue verification; negative scenarios must have the stated observed outcome.",
+      "privacy": "Synthetic data only; preserve role and data boundaries.",
+      "fixtures": "TEST-PERSON identities and test-only keys generated locally.",
+      "howToVerify": "Follow linked implementation issue instructions and recorded evidence.",
+      "requirements": [
+        "1–15"
+      ],
+      "priority": "P0",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/1",
+      "number": 1
+    },
+    {
+      "id": "E01",
+      "epic": "E01",
+      "title": "Product specification, threat model and protocol",
+      "goal": "Claims follow actual protocol properties and explicit trust.",
+      "scope": "Product specification, threat model and protocol",
+      "outOfScope": "Unrelated features and claims beyond available evidence.",
+      "dependencies": [],
+      "acceptance": [
+        "Linked vertical issues satisfy their acceptance criteria.",
+        "Traceability points to actual PRs and test evidence."
+      ],
+      "verification": "Run each linked issue verification; negative scenarios must have the stated observed outcome.",
+      "privacy": "Synthetic data only; preserve role and data boundaries.",
+      "fixtures": "TEST-PERSON identities and test-only keys generated locally.",
+      "howToVerify": "Follow linked implementation issue instructions and recorded evidence.",
+      "requirements": [
+        "1–15"
+      ],
+      "priority": "P0",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/2",
+      "number": 2
+    },
+    {
+      "id": "E02",
+      "epic": "E02",
+      "title": "Identity, eligibility and deduplication",
+      "goal": "One synthetic person has one right per poll across providers.",
+      "scope": "Identity, eligibility and deduplication",
+      "outOfScope": "Unrelated features and claims beyond available evidence.",
+      "dependencies": [],
+      "acceptance": [
+        "Linked vertical issues satisfy their acceptance criteria.",
+        "Traceability points to actual PRs and test evidence."
+      ],
+      "verification": "Run each linked issue verification; negative scenarios must have the stated observed outcome.",
+      "privacy": "Synthetic data only; preserve role and data boundaries.",
+      "fixtures": "TEST-PERSON identities and test-only keys generated locally.",
+      "howToVerify": "Follow linked implementation issue instructions and recorded evidence.",
+      "requirements": [
+        "1–15"
+      ],
+      "priority": "P1",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/3",
+      "number": 3
+    },
+    {
+      "id": "E03",
+      "epic": "E03",
+      "title": "Cryptographic voting vertical slice",
+      "goal": "A real encrypted ballot is independently tallied and verified.",
+      "scope": "Cryptographic voting vertical slice",
+      "outOfScope": "Unrelated features and claims beyond available evidence.",
+      "dependencies": [],
+      "acceptance": [
+        "Linked vertical issues satisfy their acceptance criteria.",
+        "Traceability points to actual PRs and test evidence."
+      ],
+      "verification": "Run each linked issue verification; negative scenarios must have the stated observed outcome.",
+      "privacy": "Synthetic data only; preserve role and data boundaries.",
+      "fixtures": "TEST-PERSON identities and test-only keys generated locally.",
+      "howToVerify": "Follow linked implementation issue instructions and recorded evidence.",
+      "requirements": [
+        "1–15"
+      ],
+      "priority": "P0",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/4",
+      "number": 4
+    },
+    {
+      "id": "E04",
+      "epic": "E04",
+      "title": "Questions, catalog and lifecycle",
+      "goal": "Participants find and create immutable reviewed proposals.",
+      "scope": "Questions, catalog and lifecycle",
+      "outOfScope": "Unrelated features and claims beyond available evidence.",
+      "dependencies": [],
+      "acceptance": [
+        "Linked vertical issues satisfy their acceptance criteria.",
+        "Traceability points to actual PRs and test evidence."
+      ],
+      "verification": "Run each linked issue verification; negative scenarios must have the stated observed outcome.",
+      "privacy": "Synthetic data only; preserve role and data boundaries.",
+      "fixtures": "TEST-PERSON identities and test-only keys generated locally.",
+      "howToVerify": "Follow linked implementation issue instructions and recorded evidence.",
+      "requirements": [
+        "1–15"
+      ],
+      "priority": "P1",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/5",
+      "number": 5
+    },
+    {
+      "id": "E05",
+      "epic": "E05",
+      "title": "Participant journey and accessibility",
+      "goal": "A mobile and keyboard user can complete the whole flow.",
+      "scope": "Participant journey and accessibility",
+      "outOfScope": "Unrelated features and claims beyond available evidence.",
+      "dependencies": [],
+      "acceptance": [
+        "Linked vertical issues satisfy their acceptance criteria.",
+        "Traceability points to actual PRs and test evidence."
+      ],
+      "verification": "Run each linked issue verification; negative scenarios must have the stated observed outcome.",
+      "privacy": "Synthetic data only; preserve role and data boundaries.",
+      "fixtures": "TEST-PERSON identities and test-only keys generated locally.",
+      "howToVerify": "Follow linked implementation issue instructions and recorded evidence.",
+      "requirements": [
+        "1–15"
+      ],
+      "priority": "P1",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/6",
+      "number": 6
+    },
+    {
+      "id": "E06",
+      "epic": "E06",
+      "title": "Tally, verifier and public audit",
+      "goal": "Results can be verified offline without private storage.",
+      "scope": "Tally, verifier and public audit",
+      "outOfScope": "Unrelated features and claims beyond available evidence.",
+      "dependencies": [],
+      "acceptance": [
+        "Linked vertical issues satisfy their acceptance criteria.",
+        "Traceability points to actual PRs and test evidence."
+      ],
+      "verification": "Run each linked issue verification; negative scenarios must have the stated observed outcome.",
+      "privacy": "Synthetic data only; preserve role and data boundaries.",
+      "fixtures": "TEST-PERSON identities and test-only keys generated locally.",
+      "howToVerify": "Follow linked implementation issue instructions and recorded evidence.",
+      "requirements": [
+        "1–15"
+      ],
+      "priority": "P1",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/7",
+      "number": 7
+    },
+    {
+      "id": "E07",
+      "epic": "E07",
+      "title": "Moderation, appeals and transparency",
+      "goal": "Decisions are reasoned, recorded and appealable.",
+      "scope": "Moderation, appeals and transparency",
+      "outOfScope": "Unrelated features and claims beyond available evidence.",
+      "dependencies": [],
+      "acceptance": [
+        "Linked vertical issues satisfy their acceptance criteria.",
+        "Traceability points to actual PRs and test evidence."
+      ],
+      "verification": "Run each linked issue verification; negative scenarios must have the stated observed outcome.",
+      "privacy": "Synthetic data only; preserve role and data boundaries.",
+      "fixtures": "TEST-PERSON identities and test-only keys generated locally.",
+      "howToVerify": "Follow linked implementation issue instructions and recorded evidence.",
+      "requirements": [
+        "1–15"
+      ],
+      "priority": "P1",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/8",
+      "number": 8
+    },
+    {
+      "id": "E08",
+      "epic": "E08",
+      "title": "Security, recovery and performance",
+      "goal": "Adversarial scenarios have actual controls and evidence.",
+      "scope": "Security, recovery and performance",
+      "outOfScope": "Unrelated features and claims beyond available evidence.",
+      "dependencies": [],
+      "acceptance": [
+        "Linked vertical issues satisfy their acceptance criteria.",
+        "Traceability points to actual PRs and test evidence."
+      ],
+      "verification": "Run each linked issue verification; negative scenarios must have the stated observed outcome.",
+      "privacy": "Synthetic data only; preserve role and data boundaries.",
+      "fixtures": "TEST-PERSON identities and test-only keys generated locally.",
+      "howToVerify": "Follow linked implementation issue instructions and recorded evidence.",
+      "requirements": [
+        "1–15"
+      ],
+      "priority": "P1",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/9",
+      "number": 9
+    },
+    {
+      "id": "E09",
+      "epic": "E09",
+      "title": "Release, documentation and reproducibility",
+      "goal": "A second developer can reproduce released artifacts and checks.",
+      "scope": "Release, documentation and reproducibility",
+      "outOfScope": "Unrelated features and claims beyond available evidence.",
+      "dependencies": [],
+      "acceptance": [
+        "Linked vertical issues satisfy their acceptance criteria.",
+        "Traceability points to actual PRs and test evidence."
+      ],
+      "verification": "Run each linked issue verification; negative scenarios must have the stated observed outcome.",
+      "privacy": "Synthetic data only; preserve role and data boundaries.",
+      "fixtures": "TEST-PERSON identities and test-only keys generated locally.",
+      "howToVerify": "Follow linked implementation issue instructions and recorded evidence.",
+      "requirements": [
+        "1–15"
+      ],
+      "priority": "P1",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/10",
+      "number": 10
+    },
+    {
+      "id": "E10",
+      "epic": "E10",
+      "title": "Production Readiness",
+      "goal": "External readiness is distinct from synthetic development.",
+      "scope": "Production Readiness",
+      "outOfScope": "Unrelated features and claims beyond available evidence.",
+      "dependencies": [],
+      "acceptance": [
+        "Linked vertical issues satisfy their acceptance criteria.",
+        "Traceability points to actual PRs and test evidence."
+      ],
+      "verification": "Run each linked issue verification; negative scenarios must have the stated observed outcome.",
+      "privacy": "Synthetic data only; preserve role and data boundaries.",
+      "fixtures": "TEST-PERSON identities and test-only keys generated locally.",
+      "howToVerify": "Follow linked implementation issue instructions and recorded evidence.",
+      "requirements": [
+        "1–15"
+      ],
+      "priority": "P1",
+      "phase": "Production Readiness",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/11",
+      "number": 11
+    },
+    {
+      "id": "V001",
+      "epic": "E00",
+      "title": "Bootstrap environment, migrations and minimum-permission CI",
+      "goal": "Public development is reviewable and can be reproduced.",
+      "scope": "Bootstrap environment, migrations and minimum-permission CI",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E00"
+      ],
+      "acceptance": [
+        "Clean checkout bootstrap and healthchecks",
+        "secret, dependency and migration checks run"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "No secrets or keys in Git or CI output",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "8",
+        "9",
+        "12"
+      ],
+      "priority": "P0",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/12",
+      "number": 12
+    },
+    {
+      "id": "V002",
+      "epic": "E00",
+      "title": "Public backlog, board and traceability",
+      "goal": "Public development is reviewable and can be reproduced.",
+      "scope": "Public backlog, board and traceability",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E00"
+      ],
+      "acceptance": [
+        "Public board, small issues, required fields, idempotent sync and traceability"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "Open issues contain no exploit secrets",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "9",
+        "10",
+        "11"
+      ],
+      "priority": "P0",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/13",
+      "number": 13
+    },
+    {
+      "id": "V003",
+      "epic": "E01",
+      "title": "Protocol comparison, compatibility and trust model",
+      "goal": "Claims follow actual protocol properties and explicit trust.",
+      "scope": "Protocol comparison, compatibility and trust model",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E01"
+      ],
+      "acceptance": [
+        "Pinned reference, source evidence, exact threshold and incompatibilities recorded"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "No inherited whole-product audit claims",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "4",
+        "5",
+        "7",
+        "15.2"
+      ],
+      "priority": "P0",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/14",
+      "number": 14
+    },
+    {
+      "id": "V004",
+      "epic": "E03",
+      "title": "Reference threshold voting and offline verification",
+      "goal": "A real encrypted ballot is independently tallied and verified.",
+      "scope": "Reference threshold voting and offline verification",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E03"
+      ],
+      "acceptance": [
+        "Official vectors and synthetic ballots execute",
+        "tampered proof and result fail",
+        "quorum shortage blocks"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "No private keys or plaintext in public artifacts",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "4",
+        "5",
+        "12"
+      ],
+      "priority": "P0",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/15",
+      "number": 15
+    },
+    {
+      "id": "V005",
+      "epic": "E02",
+      "title": "Versioned eligibility and two-provider deduplication",
+      "goal": "One synthetic person has one right per poll across providers.",
+      "scope": "Versioned eligibility and two-provider deduplication",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E02"
+      ],
+      "acceptance": [
+        "A/B same person deduplicates under concurrency",
+        "verified age/citizenship optional",
+        "conflicts denied"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "Keyed pseudonyms stay in identity storage",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "2",
+        "6",
+        "15.3",
+        "15.9"
+      ],
+      "priority": "P0",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/16",
+      "number": 16
+    },
+    {
+      "id": "V006",
+      "epic": "E02",
+      "title": "Provider outage, return replay and recovery",
+      "goal": "One synthetic person has one right per poll across providers.",
+      "scope": "Provider outage, return replay and recovery",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E02"
+      ],
+      "acceptance": [
+        "Both unavailable, late return, A then B, credential recovery and expiry tested"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "Never weaken identity or reset voting right",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "6",
+        "12",
+        "15.9"
+      ],
+      "priority": "P0",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/17",
+      "number": 17
+    },
+    {
+      "id": "V007",
+      "epic": "E02",
+      "title": "Provider capability and disabled integration contracts",
+      "goal": "One synthetic person has one right per poll across providers.",
+      "scope": "Provider capability and disabled integration contracts",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E02"
+      ],
+      "acceptance": [
+        "Diia, BankID and QES visibly AwaitingProviderContract",
+        "production rejects mocks"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "No invented endpoints or personal documents",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "6",
+        "13"
+      ],
+      "priority": "P0",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/18",
+      "number": 18
+    },
+    {
+      "id": "V008",
+      "epic": "E03",
+      "title": "Final ballot intake, client encryption and replay binding",
+      "goal": "A real encrypted ballot is independently tallied and verified.",
+      "scope": "Final ballot intake, client encryption and replay binding",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E03"
+      ],
+      "acceptance": [
+        "Concurrent/repeated/other-device requests count once",
+        "malformed proof and other poll/environment rejected"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "No identity cookies, user IDs or plaintext reach ballot origin",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "5",
+        "12",
+        "15.1"
+      ],
+      "priority": "P0",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/19",
+      "number": 19
+    },
+    {
+      "id": "V009",
+      "epic": "E03",
+      "title": "Frozen roster admission, recovery and revocation controls",
+      "goal": "A real encrypted ballot is independently tallied and verified.",
+      "scope": "Frozen roster admission, recovery and revocation controls",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E03"
+      ],
+      "acceptance": [
+        "Only committed credentials accepted",
+        "forbidden roster update and key rotation rejected"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "Issuer forgery remains visible under malicious trust root",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "5",
+        "15.2",
+        "15.3"
+      ],
+      "priority": "P0",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/20",
+      "number": 20
+    },
+    {
+      "id": "V010",
+      "epic": "E04",
+      "title": "Author draft, edit, similar search and catalog",
+      "goal": "Participants find and create immutable reviewed proposals.",
+      "scope": "Author draft, edit, similar search and catalog",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E04"
+      ],
+      "acceptance": [
+        "Verified pseudonymous author creates/edits",
+        "sources and arguments required",
+        "chronological sort stated"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "Author quotas use deduplicated identity, never voting history",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "3",
+        "15.6"
+      ],
+      "priority": "P1",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/21",
+      "number": 21
+    },
+    {
+      "id": "V011",
+      "epic": "E04",
+      "title": "Reviewed lifecycle and immutable official context",
+      "goal": "Participants find and create immutable reviewed proposals.",
+      "scope": "Reviewed lifecycle and immutable official context",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E04"
+      ],
+      "acceptance": [
+        "All states and deadlines enforced",
+        "post-open manifest/context edits rejected",
+        "successor links retained"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "Cancellation requires an incident reason, not unwanted result",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "3",
+        "15.5"
+      ],
+      "priority": "P1",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/22",
+      "number": 22
+    },
+    {
+      "id": "V012",
+      "epic": "E05",
+      "title": "Ukrainian identity-to-tracker browser journey",
+      "goal": "A mobile and keyboard user can complete the whole flow.",
+      "scope": "Ukrainian identity-to-tracker browser journey",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E05"
+      ],
+      "acceptance": [
+        "Desktop/mobile keyboard flow handles loading, errors, retries, offline and final confirmation"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "No secrets persisted in browser URL/logs/receipts",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "3",
+        "5",
+        "12"
+      ],
+      "priority": "P1",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/23",
+      "number": 23
+    },
+    {
+      "id": "V013",
+      "epic": "E05",
+      "title": "Trust center, help and methodology notices",
+      "goal": "A mobile and keyboard user can complete the whole flow.",
+      "scope": "Trust center, help and methodology notices",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E05"
+      ],
+      "acceptance": [
+        "Environment, actual eligibility, verification and coercion limits visible before voting"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "No representative or blanket safety claims",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "1",
+        "2",
+        "3",
+        "15.5",
+        "15.11"
+      ],
+      "priority": "P1",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/24",
+      "number": 24
+    },
+    {
+      "id": "V014",
+      "epic": "E06",
+      "title": "Trustee finality guard and result suppression",
+      "goal": "Results can be verified offline without private storage.",
+      "scope": "Trustee finality guard and result suppression",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E06"
+      ],
+      "acceptance": [
+        "Reject subset, individual ballot, wrong poll, early tally, alternate final set",
+        "small groups never decrypt"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "No suppressed decryption shares via API or exports",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "5",
+        "7",
+        "15.4"
+      ],
+      "priority": "P0",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/25",
+      "number": 25
+    },
+    {
+      "id": "V015",
+      "epic": "E06",
+      "title": "Unified result API, export and share contract",
+      "goal": "Results can be verified offline without private storage.",
+      "scope": "Unified result API, export and share contract",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E06"
+      ],
+      "acceptance": [
+        "UI/API/JSON/CSV/share agree including question/version, N, counts, policy, times and self-selection"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "No fine-grained demographics or misleading percentages",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "3",
+        "7",
+        "15.5"
+      ],
+      "priority": "P0",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/26",
+      "number": 26
+    },
+    {
+      "id": "V016",
+      "epic": "E06",
+      "title": "Offline verifier, signed checkpoints and observer",
+      "goal": "Results can be verified offline without private storage.",
+      "scope": "Offline verifier, signed checkpoints and observer",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E06"
+      ],
+      "acceptance": [
+        "Valid archive passes",
+        "rollback, removal, additions, split histories and manifest substitution detected"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "External checkpoint comparison assumption explicit",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "7",
+        "12",
+        "15.7"
+      ],
+      "priority": "P0",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/27",
+      "number": 27
+    },
+    {
+      "id": "V017",
+      "epic": "E07",
+      "title": "Moderation rubric, reasons and appeals",
+      "goal": "Decisions are reasoned, recorded and appealable.",
+      "scope": "Moderation rubric, reasons and appeals",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E07"
+      ],
+      "acceptance": [
+        "Review one proposal, wording, facts and consequences",
+        "deny unauthorized actions",
+        "appeal duplicate decisions"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "No neutrality certification or silent content destruction",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "3",
+        "15.5",
+        "15.6"
+      ],
+      "priority": "P1",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/28",
+      "number": 28
+    },
+    {
+      "id": "V018",
+      "epic": "E07",
+      "title": "Author quotas, cooldown and catalog capture tests",
+      "goal": "Decisions are reasoned, recorded and appealable.",
+      "scope": "Author quotas, cooldown and catalog capture tests",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E07"
+      ],
+      "acceptance": [
+        "Mass paraphrases, repeated accounts and concurrent publication limits tested"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "Never one IP equals one person",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "15.6"
+      ],
+      "priority": "P1",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/29",
+      "number": 29
+    },
+    {
+      "id": "V019",
+      "epic": "E07",
+      "title": "Safe tombstones, incidents and read-only recovery",
+      "goal": "Decisions are reasoned, recorded and appealable.",
+      "scope": "Safe tombstones, incidents and read-only recovery",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E07"
+      ],
+      "acceptance": [
+        "Authorized takedown retains minimum safe evidence",
+        "observer notices missing polls",
+        "public mirror works without identity DB"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "No unlawful content replication or writable mirror",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "7",
+        "15.7"
+      ],
+      "priority": "P1",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/30",
+      "number": 30
+    },
+    {
+      "id": "V020",
+      "epic": "E08",
+      "title": "Privacy compromise and coercion evidence",
+      "goal": "Adversarial scenarios have actual controls and evidence.",
+      "scope": "Privacy compromise and coercion evidence",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E08"
+      ],
+      "acceptance": [
+        "Test each storage combination for identity, participation, cross-poll, ciphertext and choice linkage"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "Passing demonstration of limitation is not Prevented",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "7",
+        "15.3",
+        "15.4",
+        "15.10"
+      ],
+      "priority": "P1",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/31",
+      "number": 31
+    },
+    {
+      "id": "V021",
+      "epic": "E08",
+      "title": "Security adversarial matrix and test report",
+      "goal": "Adversarial scenarios have actual controls and evidence.",
+      "scope": "Security adversarial matrix and test report",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E08"
+      ],
+      "acceptance": [
+        "A01–A11 machine registry separates defense outcome/evidence",
+        "injection, XSS, CSRF, SSRF, IDOR and privilege tests"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "Use only local synthetic fixtures",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "12",
+        "15.1"
+      ],
+      "priority": "P1",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/32",
+      "number": 32
+    },
+    {
+      "id": "V022",
+      "epic": "E08",
+      "title": "Backup, restore and lost-acknowledgement recovery",
+      "goal": "Adversarial scenarios have actual controls and evidence.",
+      "scope": "Backup, restore and lost-acknowledgement recovery",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E08"
+      ],
+      "acceptance": [
+        "Restore cannot silently lose acknowledged ballots or allow repeat rights",
+        "stale recovery blocked by checkpoints"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "Backups segregated and excluded from public artifacts",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "8",
+        "12"
+      ],
+      "priority": "P1",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/33",
+      "number": 33
+    },
+    {
+      "id": "V023",
+      "epic": "E08",
+      "title": "Bounded resource use and measured load test",
+      "goal": "Adversarial scenarios have actual controls and evidence.",
+      "scope": "Bounded resource use and measured load test",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E08"
+      ],
+      "acceptance": [
+        "Request sizes, timeouts and queues bounded",
+        "measured load report records actual hardware/data"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "No extrapolation to national scale",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "7",
+        "12"
+      ],
+      "priority": "P1",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/34",
+      "number": 34
+    },
+    {
+      "id": "V024",
+      "epic": "E09",
+      "title": "Two-clean-build reproducibility and client monitor",
+      "goal": "A second developer can reproduce released artifacts and checks.",
+      "scope": "Two-clean-build reproducibility and client monitor",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E09"
+      ],
+      "acceptance": [
+        "Executable artifacts equal across clean builds",
+        "checksums/SBOM/provenance",
+        "server JS substitution detected"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "Monitor cannot prove identical delivery to every user",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "15.8"
+      ],
+      "priority": "P1",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/35",
+      "number": 35
+    },
+    {
+      "id": "V025",
+      "epic": "E09",
+      "title": "Release packaging, docs, full browser and CI verification",
+      "goal": "A second developer can reproduce released artifacts and checks.",
+      "scope": "Release packaging, docs, full browser and CI verification",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E09"
+      ],
+      "acceptance": [
+        "README commands checked",
+        "public RC only with all implementable AC evidence",
+        "release links and unresolved statuses honest"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "No unsafe artifacts or invented CI/approvals",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "8",
+        "9",
+        "11",
+        "12",
+        "14",
+        "15.11"
+      ],
+      "priority": "P1",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/36",
+      "number": 36
+    },
+    {
+      "id": "V026",
+      "epic": "E10",
+      "title": "Production provider contracts and verified attributes",
+      "goal": "External readiness is distinct from synthetic development.",
+      "scope": "Production provider contracts and verified attributes",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E10"
+      ],
+      "acceptance": [
+        "Signed contracts and tested official integration for real providers",
+        "independent dependency map"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "External contract and credentials required",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "6",
+        "13"
+      ],
+      "priority": "P1",
+      "phase": "Production Readiness",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/37",
+      "number": 37
+    },
+    {
+      "id": "V027",
+      "epic": "E10",
+      "title": "Legal operator, participation and data policies",
+      "goal": "External readiness is distinct from synthetic development.",
+      "scope": "Legal operator, participation and data policies",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E10"
+      ],
+      "acceptance": [
+        "Owner-approved operator, policies for minors, retention, terms, hosting and lawful processing"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "External legal review and explicit owner decision required",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "13"
+      ],
+      "priority": "P1",
+      "phase": "Production Readiness",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/38",
+      "number": 38
+    },
+    {
+      "id": "V028",
+      "epic": "E10",
+      "title": "Independent cryptographic, security and privacy review",
+      "goal": "External readiness is distinct from synthetic development.",
+      "scope": "Independent cryptographic, security and privacy review",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E10"
+      ],
+      "acceptance": [
+        "Actual external reports and resolved findings with explicit scope"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "Self-review and simulated operators do not count",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "4",
+        "7",
+        "13"
+      ],
+      "priority": "P1",
+      "phase": "Production Readiness",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/39",
+      "number": 39
+    },
+    {
+      "id": "V029",
+      "epic": "E10",
+      "title": "Independent trustees, governance and incident readiness",
+      "goal": "External readiness is distinct from synthetic development.",
+      "scope": "Independent trustees, governance and incident readiness",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E10"
+      ],
+      "acceptance": [
+        "Real independent key ceremony, disclosure, funding, support and incident responsibilities"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "No all-production-keys under one owner",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "5",
+        "13",
+        "15.8"
+      ],
+      "priority": "P1",
+      "phase": "Production Readiness",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/40",
+      "number": 40
+    },
+    {
+      "id": "V030",
+      "epic": "E03",
+      "title": "Assess supported admission after a poll has opened",
+      "goal": "A real encrypted ballot is independently tallied and verified.",
+      "scope": "Assess supported admission after a poll has opened",
+      "outOfScope": "Production certification, unrelated changes, or undocumented protocol composition.",
+      "dependencies": [
+        "E03"
+      ],
+      "acceptance": [
+        "Compatible reviewed protocol supports genuinely new person after opening, or requirement remains explicitly unfulfilled"
+      ],
+      "verification": "Positive: complete the declared flow. Negative: exercise every rejected or detected case in the acceptance criteria and preserve the report.",
+      "privacy": "Do not invent a dynamic roster extension over Belenios",
+      "fixtures": "TEST-PERSON-0001..0012; isolated mock A and B; separately generated test trustee keys.",
+      "howToVerify": "Implementation PR must provide exact runnable commands and evidence paths before this issue can close.",
+      "requirements": [
+        "5",
+        "15.2"
+      ],
+      "priority": "P0",
+      "phase": "Development release",
+      "risk": "High",
+      "issue": "https://github.com/Lontkovsky/vidkrytyi-holos/issues/41",
+      "number": 41
+    }
+  ]
+}
