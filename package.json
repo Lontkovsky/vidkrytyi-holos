@@ -11,6 +11,7 @@
     "dev": "node scripts/dev.mjs",
     "seed": "node scripts/seed.ts",
     "test": "vitest run",
+    "test:e2e": "node scripts/e2e.mjs",
     "smoke": "node scripts/smoke.ts",
     "test:crypto": "sh scripts/test-reference.sh",
     "verify": "sh scripts/verify.sh",

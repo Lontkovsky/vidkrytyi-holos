@@ -1,0 +1,22 @@
+{
+  "apiVersion": "v1",
+  "question": "Чи підтримуєте перевірку відкритого коду в браузерному сценарії 2dc9e08822?",
+  "version": 2,
+  "pollId": "HDNC86zmkoBFUw",
+  "policy": {
+    "id": "verified-rnokpp-owner",
+    "version": 1
+  },
+  "acceptedVotes": 3,
+  "counts": [
+    1,
+    1,
+    1
+  ],
+  "opensAt": "2026-09-06T17:40:00.000Z",
+  "closesAt": "2026-09-06T17:45:00.000Z",
+  "state": "Published",
+  "verification": "ReferenceVerified",
+  "selfSelected": true,
+  "representativenessWarning": "Добровільна участь із самовідбором. Результат описує учасників цього голосування й не є автоматично репрезентативною думкою населення."
+}

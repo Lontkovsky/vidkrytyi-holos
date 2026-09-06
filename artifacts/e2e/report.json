@@ -1,0 +1,94 @@
+{
+  "runId": "2dc9e08822",
+  "sourceHash": "4b662e890996011082b51c826baed1b5b7b7679960054172050734992394edb3",
+  "finalSourceHash": "4b662e890996011082b51c826baed1b5b7b7679960054172050734992394edb3",
+  "browser": "Existing in-app Browser; supplied tab.playwright binding",
+  "standaloneBrowserStarted": false,
+  "startedAt": "2026-09-06T17:40:47.038Z",
+  "finishedAt": "2026-09-06T17:45:47.979Z",
+  "passed": true,
+  "results": [
+    {
+      "step": "create",
+      "status": "Passed",
+      "assertions": [
+        "Similar search returns visible outcomes without merging votes",
+        "Verified author creates required structured draft",
+        "Draft edit increments version before submission",
+        "Submission enters Review"
+      ]
+    },
+    {
+      "step": "reviewStart",
+      "status": "Passed",
+      "assertions": [
+        "Moderator completes rubric and submits a reasoned review"
+      ]
+    },
+    {
+      "step": "review",
+      "status": "Passed",
+      "assertions": [
+        "Moderator applies five-point rubric and reason",
+        "Real ceremony opens immutable poll",
+        "Draft editing is absent after review"
+      ]
+    },
+    {
+      "step": "voteOne",
+      "status": "Passed",
+      "assertions": [
+        "Explicit final confirmation required",
+        "Original browser cryptography produces accepted ballot",
+        "Signed receipt and inclusion checked"
+      ]
+    },
+    {
+      "step": "voteTwo",
+      "status": "Passed",
+      "assertions": [
+        "Second synthetic person casts encrypted opposing vote through B"
+      ]
+    },
+    {
+      "step": "voteThree",
+      "status": "Passed",
+      "assertions": [
+        "Abstention is accepted as the third choice"
+      ]
+    },
+    {
+      "step": "duplicate",
+      "status": "Passed",
+      "assertions": [
+        "Same person through another provider cannot change final vote"
+      ]
+    },
+    {
+      "step": "tallyStart",
+      "status": "Passed",
+      "assertions": [
+        "Operator closes at the fixed deadline and requests threshold tally"
+      ]
+    },
+    {
+      "step": "publish",
+      "status": "Passed",
+      "assertions": [
+        "Fixed close enforced without deadline extension",
+        "Separate test trustees tally the browser ciphertexts",
+        "Published exact 1/1/1 counts and N=3 include abstention"
+      ]
+    },
+    {
+      "step": "exports",
+      "status": "Passed",
+      "assertions": [
+        "New JSON and audit files downloaded by the browser match the displayed result and fixed deadline",
+        "Native archive extracted unchanged from the downloaded audit for offline verification",
+        "Tracker still included after publication",
+        "Self-selection and representativeness warning stays visible"
+      ]
+    }
+  ]
+}
